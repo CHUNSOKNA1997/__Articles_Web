@@ -7,7 +7,7 @@ const Create = () => {
         title: "",
         content: "",
         author: "",
-        imagePath: "",
+        image: null,
     });
 
     const [previewPath, setPreviewPath] = useState(null);
@@ -15,10 +15,10 @@ const Create = () => {
     const handleFileChange = (e) => {
         const file = e.target.files[0];
         if (file) {
+            setData("image", file);
             const reader = new FileReader();
             reader.onloadend = () => {
                 setPreviewPath(reader.result);
-                setData("imagePath", reader.result);
             };
             reader.readAsDataURL(file);
         }
@@ -26,9 +26,10 @@ const Create = () => {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        console.log(data);
-
         post(route("admin.posts.store"), {
+            forceFormData: true,
+            preserveScroll: true,
+            preserveState: true,
             onSuccess: () => {
                 reset();
                 setPreviewPath(null);
@@ -49,7 +50,7 @@ const Create = () => {
                     </h1>
                     <button
                         type="button"
-                        className="flex gap-2 text-white bg-blue-600 hover:bg-blue-700 font-medium rounded-full text-sm px-3 py-2 transition-colors"
+                        className="flex gap-2 text-white bg-blue-600 hover:bg-blue-700 font-medium rounded-full text-sm px-3 py-2 transition-colors hover:cursor-pointer"
                         onClick={dashboardCallBack}
                     >
                         <ChevronLeft size={24} />

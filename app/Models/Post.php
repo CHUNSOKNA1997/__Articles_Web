@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Str;
 
 class Post extends Model
 {
@@ -29,4 +30,16 @@ class Post extends Model
         return $this->hasMany(Comment::class);
     }
     
+    /**
+     * Auto generate uuid for post.
+     * 
+     * @param \Illuminate\Database\Eloquent\Model $post
+     * @return string
+     */
+    protected static function booted()
+    {
+        static::creating(function ($post) {
+            $post->uuid = (string) Str::uuid();
+        });
+    }
 }

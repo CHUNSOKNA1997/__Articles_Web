@@ -1,7 +1,14 @@
 import React from "react";
+import { HeroSection } from "./HeroSection";
+import ArticleGrid from "./ArticleGrid";
 
 const Home = () => {
-    return <div>This is Home Page</div>;
+    return (
+        <>
+            <HeroSection />
+            <ArticleGrid />
+        </>
+    );
 };
 
 export default Home;
