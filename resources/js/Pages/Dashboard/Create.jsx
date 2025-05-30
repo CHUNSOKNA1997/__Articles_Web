@@ -45,17 +45,17 @@ const Create = () => {
         <div className="min-w-screen h-screen bg-gray-900 p-6 flex flex-col items-center">
             <main className="w-1/2 mt-12">
                 <div className="flex justify-between items-center">
-                    <h1 className="text-3xl font-bold text-white mb-6">
-                        Create New Post
-                    </h1>
                     <button
                         type="button"
-                        className="flex gap-2 text-white bg-blue-600 hover:bg-blue-700 font-medium rounded-full text-sm px-3 py-2 transition-colors hover:cursor-pointer"
+                        className="flex items-center gap-2 text-gray-400 hover:text-white mb-6 transition-colors duration-150 hover:cursor-pointer"
                         onClick={dashboardCallBack}
                     >
                         <ChevronLeft size={24} />
                         <span>Back to Dashboard</span>
                     </button>
+                    <h1 className="text-3xl font-bold text-white mb-6">
+                        Create New Post
+                    </h1>
                 </div>
                 <form onSubmit={handleSubmit} className="space-y-4">
                     <div>
@@ -106,11 +106,13 @@ const Create = () => {
                             className="flex flex-col items-center justify-center w-full h-64 border-2 border-gray-300 border-dashed rounded-lg cursor-pointer bg-gray-700 hover:bg-gray-600 relative"
                         >
                             {previewPath ? (
-                                <img
-                                    src={previewPath}
-                                    alt="Preview"
-                                    className="absolute inset-0 w-full h-full object-cover rounded-lg"
-                                />
+                                <div className="absolute inset-0 w-full h-full flex items-center justify-center">
+                                    <img
+                                        src={previewPath}
+                                        alt="Preview"
+                                        className="max-w-full max-h-full object-contain rounded-lg"
+                                    />
+                                </div>
                             ) : (
                                 <div className="flex flex-col items-center justify-center pt-5 pb-6">
                                     <svg
@@ -134,7 +136,7 @@ const Create = () => {
                                         or drag and drop
                                     </p>
                                     <p className="text-xs text-gray-400">
-                                        SVG, PNG, JPG or GIF (MAX. 800x400px)
+                                        SVG, PNG, JPG or GIF
                                     </p>
                                 </div>
                             )}

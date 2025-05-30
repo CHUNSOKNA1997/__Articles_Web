@@ -4,12 +4,14 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Str;
 
 class Post extends Model
 {
     /** @use HasFactory<\Database\Factories\PostFactory> */
     use HasFactory;
+    use SoftDeletes;
 
     protected $fillable = [
         'uuid',
@@ -42,4 +44,29 @@ class Post extends Model
             $post->uuid = (string) Str::uuid();
         });
     }
+
+    /**
+     * 
+     * Generate route key name.
+     * 
+     * @param string $keyName
+     * @return string
+     * 
+     */
+    public function getRouteKeyName()
+    {
+        return 'uuid';
+    }
+
+    /**
+     * 
+     * Use SoftDeletes.
+     * 
+     * @var array
+     * 
+     */
+    protected $dates = [
+        'deleted_at'
+    ];
+
 }

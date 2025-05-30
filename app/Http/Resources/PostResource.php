@@ -20,9 +20,9 @@ class PostResource extends JsonResource
             'title' => $this->title,
             'content' => $this->content,
             'author' => $this->author,
-            'image_path' => $this->image ? asset('storage/' . $this->image) : null,
-            'created_at' => $this->created_at,
-            'updated_at' => $this->updated_at,
+            'image_path' => $this->image_path ? asset('storage/' . $this->image_path) : null,
+            'created_at' => $this->created_at->format('Y-m-d'),
+            'updated_at' => $this->updated_at->format('Y-m-d'),
         ]);
 
     }
