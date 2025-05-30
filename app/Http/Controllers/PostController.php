@@ -29,30 +29,35 @@ class PostController extends Controller
      * @return \Illuminate\Http\Response
      */
 
-     public function store(Request $request)
-     {
-         try {
-             DB::beginTransaction();
-             $validated = $request->validate([
-                 'title' => ['required', 'string'],
-                 'content' => ['required', 'string'],
-                 'author' => ['required', 'string'],
-                 'image' => ['required', 'image', 'mimes:jpg,png,jpeg,gif,svg,webp'],
-             ]);
-             
-             if ($request->hasFile('image')) {
-                 $path = $request->file('image')->store('articles', 'public');
-                 $validated['image_path'] = asset('storage/' . $path);
-                 unset($validated['image']);
-             }
-             
-             Post::create($validated);
-             DB::commit();
-             return redirect()->route('admin.posts.index')->with('message', 'Post created successfully');
-         } catch (\Exception $e) {
-             DB::rollBack();
-             dd($e->getMessage());
-         }
-     }
+    public function store(Request $request)
+    {
+        // dd($request->all());
+        try {
+            DB::beginTransaction();
+            $validated = $request->validate([
+                'title' => ['required', 'string'],
+                'content' => ['required', 'string'],
+                'author' => ['required', 'string'],
+                'image' => ['nullable', 'image', 'mimes:jpeg,png,jpg,gif,svg', 'max:2048'],
+            ]);
+            
+            if ($request->hasFile('image')) {
+                $imagePath = $request->file('image')->store('articles', 'public');
+                $validated['image_path'] = $imagePath;
+            }
+            
+            Post::create($validated);
+            DB::commit();
+            
+            return redirect()->route('admin.posts.index')
+                ->with('message', 'Post created successfully');
+                
+        } catch (\Exception $e) {
+            DB::rollBack();
+            return redirect()->back()
+                ->withInput()
+                ->withErrors(['error' => 'Failed to create post. ' . $e->getMessage()]);
+        }
+    }
 
 }

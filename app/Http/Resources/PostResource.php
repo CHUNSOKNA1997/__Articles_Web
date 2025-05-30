@@ -14,15 +14,16 @@ class PostResource extends JsonResource
      */
     public function toArray(Request $request)
     {
-        return [
+        return array_merge(parent::toArray($request), [
             'id' => $this->id,
             'uuid' => $this->uuid,
             'title' => $this->title,
             'content' => $this->content,
             'author' => $this->author,
-            'image_path' => $this->image_path,
+            'image_path' => $this->image ? asset('storage/' . $this->image) : null,
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at,
-        ];
+        ]);
+
     }
 }
