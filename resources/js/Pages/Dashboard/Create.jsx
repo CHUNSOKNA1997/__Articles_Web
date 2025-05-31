@@ -164,4 +164,5 @@ const Create = () => {
     );
 };
 
+Create.layout = (page) => page;
 export default Create;

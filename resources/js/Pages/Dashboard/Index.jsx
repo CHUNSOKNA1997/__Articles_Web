@@ -20,6 +20,14 @@ const Index = ({ posts = [] }) => {
         );
     };
 
+    const editCallBack = (post) => {
+        router.visit(
+            route("admin.posts.edit", {
+                post: post.uuid,
+            })
+        );
+    };
+
     const deleteCallBack = async (post) => {
         const result = await confirmDelete();
 
@@ -102,9 +110,7 @@ const Index = ({ posts = [] }) => {
                                                 </button>
                                                 <button
                                                     onClick={() =>
-                                                        router.visit(
-                                                            `/admin/posts/${post.uuid}/edit`
-                                                        )
+                                                        editCallBack(post)
                                                     }
                                                     className="text-sm font-medium text-blue-400 hover:underline hover:cursor-pointer"
                                                 >

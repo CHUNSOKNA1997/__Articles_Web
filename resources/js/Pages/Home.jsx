@@ -2,10 +2,14 @@ import React from "react";
 import { HeroSection } from "./HeroSection";
 import ArticleGrid from "./ArticleGrid";
 
-const Home = () => {
+const Home = ({ posts = [] }) => {
+    const postdata = posts.data || [];
+
+    console.log(postdata);
+
     return (
         <>
-            <HeroSection />
+            <HeroSection posts={postdata} />
             <ArticleGrid />
         </>
     );

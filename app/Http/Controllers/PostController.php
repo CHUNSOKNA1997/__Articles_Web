@@ -80,6 +80,56 @@ class PostController extends Controller
 
     /**
      * 
+     * Show the form for editing the specified resource.
+     * 
+     * @param  \App\Models\Post  $post
+     * @return \Illuminate\Http\Response
+     */
+    public function edit(Post $post)
+    {
+        return Inertia::render('Dashboard/Edit', [
+            'posted' => new PostResource($post),
+        ]);
+    }
+
+    /**
+     * 
+     * Update the specified resource in storage.
+     * 
+     * @param  \Illuminate\Http\Request  $request
+     * @param  \App\Models\Post  $post
+     * @return \Illuminate\Http\Response
+     */
+    public function update(Request $request, Post $post)
+    {
+        try{
+            DB::beginTransaction();
+            $validated = $request->validate([
+                'title' => ['required','string'],
+                'content' => ['required','string'],
+                'author' => ['required','string'],
+                'image' => ['nullable', 'image','max:2048'],
+            ]);
+
+            if ($request->hasFile('image')) {
+                $imagePath = $request->file('image')->store('articles', 'public');
+                $validated['image_path'] = $imagePath;
+            }
+
+            $post->update($validated);
+            DB::commit();
+
+            return redirect()->route('admin.posts.index')
+                ->with('message', 'Post updated successfully');
+        }catch(\Exception $e){
+            DB::rollBack();
+            return redirect()->back()
+                ->withErrors(['error' => 'Failed to update post. '. $e->getMessage()]);
+        }
+    }   
+
+    /**
+     * 
      * Delete the specified resource from storage.
      * 
      * @param  \App\Models\Post  $post
@@ -100,5 +150,12 @@ class PostController extends Controller
             return redirect()->back()
                 ->withErrors(['error' => 'Failed to delete post. '. $e->getMessage()]);
         }
+    }
+
+    public function post()
+    {
+        return Inertia::render('Home', [
+            'posts' => PostResource::collection(Post::all()),
+        ]);
     }
 }
