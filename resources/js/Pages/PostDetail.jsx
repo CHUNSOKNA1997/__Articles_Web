@@ -2,6 +2,7 @@ import React from "react";
 import { Link } from "@inertiajs/react";
 
 const PostDetail = ({ post, latestPosts }) => {
+    console.log(latestPosts);
     const postData = post?.data;
 
     if (!postData) {

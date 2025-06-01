@@ -165,7 +165,20 @@ class PostController extends Controller
 
     public function detail(Post $post)
     {
-        $latestPosts = Post::latest()->take(5)->get();
+        $latestPosts = Post::latest()
+            ->take(5)
+            ->get()
+            ->map(function ($post) {
+                return [
+                    'id' => $post->id,
+                    'title' => $post->title,
+                    'content' => $post->content,
+                    'author' => $post->author,
+                    'image_path' => $post->image_path,
+                    'created_at' => $post->created_at->format('F d, Y'),
+                    'updated_at' => $post->updated_at->format('F d, Y')
+                ];
+            });
         return Inertia::render('PostDetail', [
             'post' => new PostResource($post),
             'latestPosts' => $latestPosts,
