@@ -1,0 +1,11 @@
+{
+    // "$schema": "./node_modules/typescript/lib/tsconfig.schema.json",
+    "compilerOptions": {
+        "baseUrl": ".",
+        "paths": {
+            "@/*": ["resources/js/*"]
+        },
+        "forceConsistentCasingInFileNames": true,
+        "strict": true
+    }
+}

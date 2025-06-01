@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { SearchIcon, MenuIcon, XIcon } from "lucide-react";
 
-const Layout = ({ children }) => {
+const FrontLayout = ({ children }) => {
     const [isMenuOpen, setIsMenuOpen] = useState(false);
     const toggleMenu = () => {
         setIsMenuOpen(!isMenuOpen);
@@ -81,7 +81,7 @@ const Layout = ({ children }) => {
             </nav>
 
             {/* Main Content */}
-            <main className="h-full">{children}</main>
+            <main className="h-full mt-12">{children}</main>
 
             {/* Footer */}
             {/* <footer className="bg-gray-900 text-white mt-12">
@@ -98,4 +98,4 @@ const Layout = ({ children }) => {
     );
 };
 
-export default Layout;
+export default FrontLayout;

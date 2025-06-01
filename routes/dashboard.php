@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\CommentController;
 use App\Http\Controllers\PostController;
 use Illuminate\Support\Facades\Route;
 
@@ -9,3 +10,5 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.'], function () {
         'posts' => PostController::class,
     ]);
 });
+
+Route::resource('comments', CommentController::class);
