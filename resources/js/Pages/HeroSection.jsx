@@ -15,7 +15,7 @@ export function HeroSection({ posts = [] }) {
                                 <img
                                     src={mainPost.image_path}
                                     alt={mainPost.title}
-                                    className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
+                                    className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110 hover:cursor-pointer"
                                 />
                                 <div className="absolute inset-0 bg-gradient-to-t from-black to-transparent"></div>
                             </div>
@@ -28,6 +28,9 @@ export function HeroSection({ posts = [] }) {
                                     <span className="mx-2">•</span>
                                     <span>{mainPost.created_at}</span>
                                 </div>
+                                <p className="text-gray-300 mt-2 line-clamp-2">
+                                    {mainPost.excerpt}
+                                </p>
                             </div>
                         </div>
                     )}
@@ -56,6 +59,9 @@ export function HeroSection({ posts = [] }) {
                                         <span className="mx-2">•</span>
                                         <span>{post.created_at}</span>
                                     </div>
+                                    <p className="text-gray-300 mt-2 text-sm line-clamp-2">
+                                        {post.excerpt}
+                                    </p>
                                 </div>
                             </div>
                         ))}

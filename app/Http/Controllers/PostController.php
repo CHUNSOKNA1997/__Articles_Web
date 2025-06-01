@@ -7,6 +7,8 @@ use App\Models\Post;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Inertia\Inertia;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Validation\ValidationData;
 
 class PostController extends Controller
 {
@@ -117,6 +119,7 @@ class PostController extends Controller
             }
 
             $post->update($validated);
+
             DB::commit();
 
             return redirect()->route('admin.posts.index')
@@ -126,7 +129,8 @@ class PostController extends Controller
             return redirect()->back()
                 ->withErrors(['error' => 'Failed to update post. '. $e->getMessage()]);
         }
-    }   
+    }  
+
 
     /**
      * 
