@@ -10,7 +10,7 @@ const Home = ({ posts = [] }) => {
     return (
         <>
             <HeroSection posts={postdata} />
-            <ArticleGrid />
+            <ArticleGrid posts={postdata} />
         </>
     );
 };

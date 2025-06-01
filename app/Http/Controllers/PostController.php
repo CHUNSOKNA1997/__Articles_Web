@@ -162,4 +162,13 @@ class PostController extends Controller
             'posts' => PostResource::collection(Post::all()),
         ]);
     }
+
+    public function detail(Post $post)
+    {
+        $latestPosts = Post::latest()->take(5)->get();
+        return Inertia::render('PostDetail', [
+            'post' => new PostResource($post),
+            'latestPosts' => $latestPosts,
+        ]);
+    }
 }

@@ -44,7 +44,10 @@ const Layout = ({ children }) => {
                             </a>
                         </div>
                         {/* Mobile Menu Toggle */}
-                        <button onClick={toggleMenu} className="md:hidden">
+                        <button
+                            onClick={toggleMenu}
+                            className="md:hidden hover:cursor-pointer"
+                        >
                             {isMenuOpen ? (
                                 <XIcon className="h-6 w-6 text-white" />
                             ) : (
@@ -84,16 +87,16 @@ const Layout = ({ children }) => {
             <main className="h-full">{children}</main>
 
             {/* Footer */}
-            {/* <footer className="bg-gray-900 text-white mt-12">
+            <footer className="bg-gray-900 text-white flex justify-center mt-auto">
                 <div className="container mx-auto px-4 py-8">
                     <div className="text-center">
                         <p>
-                            &copy; {new Date().getFullYear()} Your Brand. All
+                            &copy; {new Date().getFullYear()} KrumukNewsV2. All
                             rights reserved.
                         </p>
                     </div>
                 </div>
-            </footer> */}
+            </footer>
         </div>
     );
 };
