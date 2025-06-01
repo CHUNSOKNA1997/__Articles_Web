@@ -1,8 +1,15 @@
 import React from "react";
 import { Link } from "@inertiajs/react";
 
+import { Card, CardContent, CardFooter } from "../components/ui/card";
+import { AspectRatio } from "../components/ui/aspect-ratio";
+import {
+    TypographyH3,
+    TypographyP,
+    TypographySmall,
+} from "../components/ui/typography";
+
 export function HeroSection({ posts = [] }) {
-    // Get the first 3 posts for the hero section
     const [mainPost, ...secondaryPosts] = posts.slice(0, 3);
 
     if (!mainPost) return null;
@@ -14,30 +21,32 @@ export function HeroSection({ posts = [] }) {
                     {/* Main Featured Article */}
                     <Link
                         href={`/posts/${mainPost.uuid}`}
-                        className="lg:col-span-2 relative overflow-hidden rounded-lg group"
+                        className="lg:col-span-2 group"
                     >
-                        <div className="relative h-[500px] lg:h-[585px] overflow-hidden">
-                            <img
-                                src={mainPost.image_path}
-                                alt={mainPost.title}
-                                className="w-full h-full object-cover object-center transition-transform duration-500 group-hover:scale-110 hover:cursor-pointer"
-                                loading="lazy"
-                            />
-                            <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/50 to-transparent"></div>
-                        </div>
-                        <div className="absolute bottom-0 left-0 right-0 p-6">
-                            <h3 className="text-2xl md:text-3xl font-bold text-white group-hover:text-blue-400 transition-colors">
-                                {mainPost.title}
-                            </h3>
-                            <div className="flex items-center text-lg text-gray-300 mt-3">
-                                <span>By {mainPost.author}</span>
-                                <span className="mx-2">•</span>
-                                <span>{mainPost.created_at}</span>
-                            </div>
-                            <p className="text-gray-300 mt-3 line-clamp-2 text-lg">
-                                {mainPost.excerpt}
-                            </p>
-                        </div>
+                        <Card className="relative overflow-hidden rounded-lg cursor-pointer">
+                            <AspectRatio ratio={16 / 9} className="relative">
+                                <img
+                                    src={mainPost.image_path}
+                                    alt={mainPost.title}
+                                    className="object-cover object-center w-full h-full transition-transform duration-500 group-hover:scale-110"
+                                    loading="lazy"
+                                />
+                                <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/50 to-transparent" />
+                            </AspectRatio>
+                            <CardContent className="absolute bottom-0 left-0 right-0 p-6 text-white">
+                                <TypographyH3 className="group-hover:text-blue-400 transition-colors">
+                                    {mainPost.title}
+                                </TypographyH3>
+                                <div className="flex items-center text-lg text-gray-300 mt-3">
+                                    <span>By {mainPost.author}</span>
+                                    <span className="mx-2">•</span>
+                                    <span>{mainPost.created_at}</span>
+                                </div>
+                                <TypographyP className="mt-3 line-clamp-2 text-lg text-gray-300">
+                                    {mainPost.excerpt}
+                                </TypographyP>
+                            </CardContent>
+                        </Card>
                     </Link>
 
                     {/* Secondary Featured Articles */}
@@ -46,30 +55,35 @@ export function HeroSection({ posts = [] }) {
                             <Link
                                 key={post.uuid}
                                 href={`/posts/${post.uuid}`}
-                                className="relative overflow-hidden rounded-lg group"
+                                className="group"
                             >
-                                <div className="relative h-[280px]">
-                                    <img
-                                        src={post.image_path}
-                                        alt={post.title}
-                                        className="w-full h-full object-cover object-center transition-transform duration-500 group-hover:scale-105"
-                                        loading="lazy"
-                                    />
-                                    <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/50 to-transparent"></div>
-                                </div>
-                                <div className="absolute bottom-0 left-0 right-0 p-5">
-                                    <h3 className="text-xl font-bold text-white group-hover:text-blue-400 transition-colors">
-                                        {post.title}
-                                    </h3>
-                                    <div className="flex items-center text-sm text-gray-300 mt-2">
-                                        <span>By {post.author}</span>
-                                        <span className="mx-2">•</span>
-                                        <span>{post.created_at}</span>
-                                    </div>
-                                    <p className="text-gray-300 mt-2 text-base line-clamp-2">
-                                        {post.excerpt}
-                                    </p>
-                                </div>
+                                <Card className="relative overflow-hidden rounded-lg cursor-pointer">
+                                    <AspectRatio
+                                        ratio={16 / 9}
+                                        className="relative"
+                                    >
+                                        <img
+                                            src={post.image_path}
+                                            alt={post.title}
+                                            className="object-cover object-center w-full h-full transition-transform duration-500 group-hover:scale-105"
+                                            loading="lazy"
+                                        />
+                                        <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/50 to-transparent" />
+                                    </AspectRatio>
+                                    <CardContent className="absolute bottom-0 left-0 right-0 p-5 text-white">
+                                        <TypographyH3 className="group-hover:text-blue-400 transition-colors text-xl font-bold">
+                                            {post.title}
+                                        </TypographyH3>
+                                        <div className="flex items-center text-sm text-gray-300 mt-2">
+                                            <span>By {post.author}</span>
+                                            <span className="mx-2">•</span>
+                                            <span>{post.created_at}</span>
+                                        </div>
+                                        <TypographyP className="mt-2 line-clamp-2 text-base text-gray-300">
+                                            {post.excerpt}
+                                        </TypographyP>
+                                    </CardContent>
+                                </Card>
                             </Link>
                         ))}
                     </div>

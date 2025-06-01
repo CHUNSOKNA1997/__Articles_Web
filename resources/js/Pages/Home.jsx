@@ -1,5 +1,6 @@
 import React, { useEffect } from "react";
 import { ArticleCard } from "../components/front/ArticleCard";
+import { HeroSection } from "./HeroSection";
 
 const Home = ({ posts = [] }) => {
     const postdata = posts.data || [];
@@ -16,7 +17,6 @@ const Home = ({ posts = [] }) => {
     return (
         <>
             <HeroSection posts={postdata} />
-            <ArticleCard posts={postdata} />
         </>
     );
 };
