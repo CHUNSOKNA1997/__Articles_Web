@@ -195,7 +195,7 @@ const PostDetail = ({ post, latestPosts, comment }) => {
                                                     {comment.created_at}
                                                 </time>
                                             </div>
-                                            <p className="text-gray-400 text-sm">
+                                            <p className="text-gray-300 text-sm">
                                                 {comment.content}
                                             </p>
                                         </div>

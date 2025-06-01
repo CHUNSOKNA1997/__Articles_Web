@@ -71,6 +71,7 @@ class PostController extends Controller
             
             Post::create($validated);
 
+            dd("sucess");
             DB::commit();
             
             return redirect()->route('admin.posts.index')
@@ -78,6 +79,7 @@ class PostController extends Controller
                 
         } catch (\Exception $e) {
 
+            dd("failed", $e->getMessage());
             DB::rollBack();
             return redirect()->back()
                 ->withInput()

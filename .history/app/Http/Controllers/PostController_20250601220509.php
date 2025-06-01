@@ -61,7 +61,7 @@ class PostController extends Controller
                 'title' => ['required', 'string'],
                 'content' => ['required', 'string'],
                 'author' => ['required', 'string'],
-                'image' => ['nullable', 'image'],
+                'image' => ['nullable', 'image', 'max:2048'],
             ]);
             
             if ($request->hasFile('image')) {
@@ -71,13 +71,13 @@ class PostController extends Controller
             
             Post::create($validated);
 
+            dd("sucess");
             DB::commit();
             
             return redirect()->route('admin.posts.index')
                 ->with('message', 'Post created successfully');
                 
         } catch (\Exception $e) {
-
             DB::rollBack();
             return redirect()->back()
                 ->withInput()

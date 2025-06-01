@@ -85,7 +85,7 @@ const Show = ({ post, comments = [] }) => {
                                             {comment.created_at}
                                         </span>
                                     </div>
-                                    <p className="text-gray-400 text-sm">
+                                    <p className="text-gray-500 text-sm">
                                         {comment.content}
                                     </p>
                                 </div>

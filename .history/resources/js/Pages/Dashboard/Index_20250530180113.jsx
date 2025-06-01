@@ -61,7 +61,7 @@ const Index = ({ posts = [] }) => {
                 <button
                     onClick={handleCreateNewPost}
                     type="button"
-                    className="flex gap-2 items-center text-white bg-blue-600 hover:bg-blue-700 font-medium rounded-full text-sm px-4 py-2 transition-colors duration-150 hover:cursor-pointer"
+                    className="flex gap-2 items-center text-white bg-blue-600 hover:bg-blue-700 font-medium rounded-full text-sm px-4 py-2 transition-colors duration-150"
                 >
                     <CopyPlus size={20} />
                     <span>Create New Post</span>
