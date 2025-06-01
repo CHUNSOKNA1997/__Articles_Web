@@ -47,9 +47,12 @@ import {
     DropdownMenuTrigger,
 } from "../../components/ui/dropdown-menu";
 import { Badge } from "../../components/ui/badge";
-import { ThemeProvider, useTheme } from "../../provider/theme-provider";
+import { useTheme } from "../../provider/theme-provider";
+import { Input } from "../../components/ui/input";
 
 const Index = ({ posts = [] }) => {
+    const [search, setSearch] = useState("");
+
     const { theme, setTheme } = useTheme();
     console.log(posts);
     const postsData = posts.data || [];
@@ -64,6 +67,11 @@ const Index = ({ posts = [] }) => {
                 post: post.uuid,
             })
         );
+    };
+
+    const handleSearchSubmit = (e) => {
+        e.preventDefault();
+        router.get("/admin/posts", { search }, { preserveState: true });
     };
 
     const editCallBack = (post) => {
@@ -222,9 +230,19 @@ const Index = ({ posts = [] }) => {
                             <h2 className="text-2xl font-bold tracking-tight">
                                 Posts Management
                             </h2>
-                            <p className="text-muted-foreground">
-                                Manage all your blog posts from here
-                            </p>
+                            <form
+                                onSubmit={handleSearchSubmit}
+                                className="flex gap-2 mb-4"
+                            >
+                                <input
+                                    type="text"
+                                    placeholder="Search posts..."
+                                    value={search}
+                                    onChange={(e) => setSearch(e.target.value)}
+                                    className="border px-2 py-1 rounded"
+                                />
+                                <Button type="submit">Search</Button>
+                            </form>
                         </div>
 
                         {/* Shadcn Table */}

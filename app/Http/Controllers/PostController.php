@@ -12,9 +12,18 @@ class PostController extends Controller
 {
     //
 
-    public function index()
+    public function index(Request $request)
     {
-        $post = Post::all();
+            $search = $request->input('search');
+
+           $post = $posts = Post::query()
+    ->when($search, function ($query, $search) {
+        $query->where('title', 'like', "%{$search}%");
+    })
+    ->get()
+    ->mapInto(PostResource::class);
+
+
         return Inertia::render('Dashboard/Index', [
             'posts' => PostResource::collection($post),
         ]);
