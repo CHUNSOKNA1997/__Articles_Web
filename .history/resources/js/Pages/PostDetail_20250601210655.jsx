@@ -1,11 +1,8 @@
 import React from "react";
-import { Link, useForm } from "@inertiajs/react";
+import { Link } from "@inertiajs/react";
+import { useForm } from "@inertiajs/react"; // Make sure this import exists
 
-const PostDetail = ({ post, latestPosts, comment }) => {
-    const postData = post?.data;
-    const commentData = comment?.data || [];
-
-    console.log(commentData);
+const PostDetail = ({ post, latestPosts }) => {
     const {
         data,
         setData,
@@ -14,26 +11,21 @@ const PostDetail = ({ post, latestPosts, comment }) => {
         errors,
         reset,
     } = useForm({
-        author_name: "",
-        content: "",
-        post_id: postData?.id || null,
+        name: "",
+        description: "",
     });
 
     const handleCommentCallBack = (e) => {
         e.preventDefault();
-        if (!postData) return;
-
-        submit(route("admin.comments.store", postData.uuid), {
-            preserveScroll: true,
+        
+        submit("POST", `/posts/${postData.uuid}/comments`, {
             onSuccess: () => {
                 reset();
-            },
-            onError: (errors) => {
-                console.log("Form errors:", errors);
             },
         });
     };
 
+    const postData = post?.data;
     if (!postData) {
         return (
             <div className="min-h-screen bg-gray-900 flex items-center justify-center">
@@ -113,93 +105,56 @@ const PostDetail = ({ post, latestPosts, comment }) => {
                             <h2 className="text-2xl font-bold text-white mb-6">
                                 Comments
                             </h2>
-
-                            {/* Comment Form */}
                             <form
-                                className="space-y-4 mb-8"
+                                className="space-y-4"
                                 onSubmit={handleCommentCallBack}
                             >
                                 <div>
                                     <label
-                                        htmlFor="author_name"
+                                        htmlFor="name"
                                         className="block text-sm font-medium text-gray-300 mb-2"
                                     >
                                         Name
                                     </label>
                                     <input
                                         type="text"
-                                        id="author_name"
-                                        value={data.author_name}
+                                        id="name"
+                                        value={data.name}
                                         onChange={(e) =>
-                                            setData(
-                                                "author_name",
-                                                e.target.value
-                                            )
+                                            setData("name", e.target.value)
                                         }
                                         className="w-full px-4 py-2 bg-gray-700 border border-gray-600 rounded-lg text-white focus:ring-2 focus:ring-blue-500"
                                         placeholder="Your name"
                                     />
-                                    {errors.author_name && (
-                                        <p className="text-red-500 text-sm mt-1">
-                                            {errors.author_name}
-                                        </p>
-                                    )}
                                 </div>
                                 <div>
                                     <label
-                                        htmlFor="content"
+                                        htmlFor="comment"
                                         className="block text-sm font-medium text-gray-300 mb-2"
                                     >
                                         Comment
                                     </label>
                                     <textarea
-                                        id="content"
+                                        id="comment"
                                         rows="4"
-                                        value={data.content}
+                                        value={data.description}
                                         onChange={(e) =>
-                                            setData("content", e.target.value)
+                                            setData(
+                                                "description",
+                                                e.target.value
+                                            )
                                         }
                                         className="w-full px-4 py-2 bg-gray-700 border border-gray-600 rounded-lg text-white focus:ring-2 focus:ring-blue-500"
                                         placeholder="Write your comment here..."
                                     ></textarea>
-                                    {errors.content && (
-                                        <p className="text-red-500 text-sm mt-1">
-                                            {errors.content}
-                                        </p>
-                                    )}
                                 </div>
                                 <button
                                     type="submit"
                                     className="px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition duration-300"
-                                    disabled={processing}
                                 >
-                                    {processing
-                                        ? "Submitting..."
-                                        : "Submit Comment"}
+                                    Submit Comment
                                 </button>
                             </form>
-
-                            {/* Comment List */}
-                            <div className="space-y-6">
-                                {commentData.map((comment) => (
-                                    <div
-                                        key={comment.id}
-                                        className="bg-gray-700 rounded-lg p-4"
-                                    >
-                                        <div className="flex items-center justify-between mb-2">
-                                            <h3 className="text-white font-medium">
-                                                {comment.author_name}
-                                            </h3>
-                                            <time className="text-gray-400 text-sm">
-                                                {comment.created_at}
-                                            </time>
-                                        </div>
-                                        <p className="text-gray-300">
-                                            {comment.content}
-                                        </p>
-                                    </div>
-                                ))}
-                            </div>
                         </section>
                     </div>
 
@@ -222,6 +177,33 @@ const PostDetail = ({ post, latestPosts, comment }) => {
                                                     <img
                                                         src={`/storage/${latestPost.image_path}`}
                                                         alt={latestPost.title}
+                                                        className="w-full h-full object-cover"
+                                                        loading="lazy"
+                                                    />
+                                                </div>
+                                            )}
+                                            <div className="p-4">
+                                                <h3 className="text-lg font-semibold text-white mb-2 group-hover:text-blue-400 transition">
+                                                    {latestPost.title}
+                                                </h3>
+                                                <p className="text-gray-400 text-sm">
+                                                    {latestPost.created_at}
+                                                </p>
+                                            </div>
+                                        </div>
+                                    </Link>
+                                ))}
+                            </div>
+                        </div>
+                    </aside>
+                </div>
+            </div>
+        </article>
+    );
+};
+
+export default PostDetail;
+                 alt={latestPost.title}
                                                         className="w-full h-full object-cover"
                                                         loading="lazy"
                                                     />

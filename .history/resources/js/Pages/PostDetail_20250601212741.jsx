@@ -1,11 +1,10 @@
 import React from "react";
 import { Link, useForm } from "@inertiajs/react";
 
-const PostDetail = ({ post, latestPosts, comment }) => {
+const PostDetail = ({ post, latestPosts, comments = [] }) => {
     const postData = post?.data;
-    const commentData = comment?.data || [];
+    const commentData = comments?.data || [];
 
-    console.log(commentData);
     const {
         data,
         setData,
@@ -113,10 +112,27 @@ const PostDetail = ({ post, latestPosts, comment }) => {
                             <h2 className="text-2xl font-bold text-white mb-6">
                                 Comments
                             </h2>
+                            
+                            {/* Comment List */}
+                            <div className="space-y-6 mb-8">
+                                {commentData.map((comment) => (
+                                    <div key={comment.id} className="bg-gray-700 rounded-lg p-4">
+                                        <div className="flex items-center justify-between mb-2">
+                                            <h3 className="text-white font-medium">
+                                                {comment.author_name}
+                                            </h3>
+                                            <time className="text-gray-400 text-sm">
+                                                {comment.created_at}
+                                            </time>
+                                        </div>
+                                        <p className="text-gray-300">{comment.content}</p>
+                                    </div>
+                                ))}
+                            </div>
 
                             {/* Comment Form */}
                             <form
-                                className="space-y-4 mb-8"
+                                className="space-y-4"
                                 onSubmit={handleCommentCallBack}
                             >
                                 <div>
@@ -131,10 +147,7 @@ const PostDetail = ({ post, latestPosts, comment }) => {
                                         id="author_name"
                                         value={data.author_name}
                                         onChange={(e) =>
-                                            setData(
-                                                "author_name",
-                                                e.target.value
-                                            )
+                                            setData("author_name", e.target.value)
                                         }
                                         className="w-full px-4 py-2 bg-gray-700 border border-gray-600 rounded-lg text-white focus:ring-2 focus:ring-blue-500"
                                         placeholder="Your name"
@@ -173,33 +186,9 @@ const PostDetail = ({ post, latestPosts, comment }) => {
                                     className="px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition duration-300"
                                     disabled={processing}
                                 >
-                                    {processing
-                                        ? "Submitting..."
-                                        : "Submit Comment"}
+                                    {processing ? "Submitting..." : "Submit Comment"}
                                 </button>
                             </form>
-
-                            {/* Comment List */}
-                            <div className="space-y-6">
-                                {commentData.map((comment) => (
-                                    <div
-                                        key={comment.id}
-                                        className="bg-gray-700 rounded-lg p-4"
-                                    >
-                                        <div className="flex items-center justify-between mb-2">
-                                            <h3 className="text-white font-medium">
-                                                {comment.author_name}
-                                            </h3>
-                                            <time className="text-gray-400 text-sm">
-                                                {comment.created_at}
-                                            </time>
-                                        </div>
-                                        <p className="text-gray-300">
-                                            {comment.content}
-                                        </p>
-                                    </div>
-                                ))}
-                            </div>
                         </section>
                     </div>
 

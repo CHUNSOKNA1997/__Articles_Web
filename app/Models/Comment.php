@@ -9,11 +9,12 @@ class Comment extends Model
 {
     /** @use HasFactory<\Database\Factories\CommentFactory> */
     use HasFactory;
+    public $timestamps = true;
 
     protected $fillable = [
-        'post_id',
         'author_name',
         'content',
+        'post_id'
     ];
 
     /**

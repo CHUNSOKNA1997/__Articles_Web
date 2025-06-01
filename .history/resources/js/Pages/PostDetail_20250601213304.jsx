@@ -1,11 +1,10 @@
 import React from "react";
 import { Link, useForm } from "@inertiajs/react";
 
-const PostDetail = ({ post, latestPosts, comment }) => {
+const PostDetail = ({ post, latestPosts, comments = [] }) => {
     const postData = post?.data;
-    const commentData = comment?.data || [];
+    const commentData = comments?.data || [];
 
-    console.log(commentData);
     const {
         data,
         setData,
@@ -114,9 +113,31 @@ const PostDetail = ({ post, latestPosts, comment }) => {
                                 Comments
                             </h2>
 
+                            {/* Comment List */}
+                            <div className="space-y-6 mb-8">
+                                {commentData.map((comment) => (
+                                    <div
+                                        key={comment.id}
+                                        className="bg-gray-700 rounded-lg p-4"
+                                    >
+                                        <div className="flex items-center justify-between mb-2">
+                                            <h3 className="text-white font-medium">
+                                                {comment.author_name}
+                                            </h3>
+                                            <time className="text-gray-400 text-sm">
+                                                {comment.created_at}
+                                            </time>
+                                        </div>
+                                        <p className="text-gray-300">
+                                            {comment.content}
+                                        </p>
+                                    </div>
+                                ))}
+                            </div>
+
                             {/* Comment Form */}
                             <form
-                                className="space-y-4 mb-8"
+                                className="space-y-4"
                                 onSubmit={handleCommentCallBack}
                             >
                                 <div>
@@ -178,28 +199,6 @@ const PostDetail = ({ post, latestPosts, comment }) => {
                                         : "Submit Comment"}
                                 </button>
                             </form>
-
-                            {/* Comment List */}
-                            <div className="space-y-6">
-                                {commentData.map((comment) => (
-                                    <div
-                                        key={comment.id}
-                                        className="bg-gray-700 rounded-lg p-4"
-                                    >
-                                        <div className="flex items-center justify-between mb-2">
-                                            <h3 className="text-white font-medium">
-                                                {comment.author_name}
-                                            </h3>
-                                            <time className="text-gray-400 text-sm">
-                                                {comment.created_at}
-                                            </time>
-                                        </div>
-                                        <p className="text-gray-300">
-                                            {comment.content}
-                                        </p>
-                                    </div>
-                                ))}
-                            </div>
                         </section>
                     </div>
 

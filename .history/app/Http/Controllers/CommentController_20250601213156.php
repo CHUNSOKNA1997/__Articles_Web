@@ -12,9 +12,8 @@ class CommentController extends Controller
 {
     public function store(Request $request, Post $post)
     {
-        try {
+        try{
             DB::beginTransaction();
-
             $validated = $request->validate([
                 'author_name' => 'required|string|max:255',
                 'content' => 'required|string',
@@ -26,11 +25,8 @@ class CommentController extends Controller
                 'content' => $validated['content'],
             ]);
     
-            DB::commit();
             return redirect()->back()->with('success', 'Comment added successfully.');
-        } catch (\Exception $e) {
-            DB::rollback();
-            return redirect()->back()->with('error', 'Failed to add comment. Please try again.');
         }
     }
+
 }

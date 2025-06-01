@@ -20,17 +20,30 @@ class CommentController extends Controller
                 'content' => 'required|string',
             ]);
     
-            Comment::create([
+            $comment = Comment::create([
                 'post_id' => $post->id,
                 'author_name' => $validated['author_name'],
                 'content' => $validated['content'],
             ]);
     
             DB::commit();
-            return redirect()->back()->with('success', 'Comment added successfully.');
+
+            return response()->json([
+                'success' => true,
+                'message' => 'Comment added successfully.',
+                'comment' => [
+                    'id' => $comment->id,
+                    'author_name' => $comment->author_name,
+                    'content' => $comment->content,
+                    'created_at' => $comment->created_at->format('Y-m-d H:i:s')
+                ]
+              ]);              
         } catch (\Exception $e) {
             DB::rollback();
-            return redirect()->back()->with('error', 'Failed to add comment. Please try again.');
+            return response()->json([
+                'success' => false,
+                'message' => 'Failed to add comment. Please try again.'
+            ], 422);
         }
     }
 }
