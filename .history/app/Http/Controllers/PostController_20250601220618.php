@@ -16,18 +16,9 @@ class PostController extends Controller
 {
     //
 
-    public function index(Request $request)
+    public function index()
     {
-            $search = $request->input('search');
-
-           $post = $posts = Post::query()
-    ->when($search, function ($query, $search) {
-        $query->where('title', 'like', "%{$search}%");
-    })
-    ->get()
-    ->mapInto(PostResource::class);
-
-
+        $posts = Post::withCount('comments')->get();
         return Inertia::render('Dashboard/Index', [
             'posts' => PostResource::collection($posts),
         ]);
@@ -209,7 +200,7 @@ class PostController extends Controller
         });
 
     return Inertia::render('PostDetail', [
-        'post' => new PostResource($post),
+        'post' => new \App\Http\Resources\PostResource($post),
         'latestPosts' => $latestPosts,
         'comment' => [
             'data' => $comments,

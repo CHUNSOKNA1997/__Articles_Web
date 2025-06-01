@@ -15,6 +15,7 @@ const Home = ({ posts = [] }) => {
 
     return (
         <>
+            <HeroSection posts={postdata} />
             <ArticleCard posts={postdata} />
         </>
     );

@@ -16,18 +16,9 @@ class PostController extends Controller
 {
     //
 
-    public function index(Request $request)
+    public function index()
     {
-            $search = $request->input('search');
-
-           $post = $posts = Post::query()
-    ->when($search, function ($query, $search) {
-        $query->where('title', 'like', "%{$search}%");
-    })
-    ->get()
-    ->mapInto(PostResource::class);
-
-
+        $posts = Post::withCount('comments')->get();
         return Inertia::render('Dashboard/Index', [
             'posts' => PostResource::collection($posts),
         ]);
@@ -61,38 +52,37 @@ class PostController extends Controller
      * @return \Illuminate\Http\Response
      */
 
-    public function store(Request $request)
-    {
-        // dd($request->all());
-        try {
-            DB::beginTransaction();
-            $validated = $request->validate([
-                'title' => ['required', 'string'],
-                'content' => ['required', 'string'],
-                'author' => ['required', 'string'],
-                'image' => ['nullable', 'image'],
-            ]);
-            
-            if ($request->hasFile('image')) {
-                $imagePath = $request->file('image')->store('articles', 'public');
-                $validated['image_path'] = $imagePath;
-            }
-            
-            Post::create($validated);
-
-            DB::commit();
-            
-            return redirect()->route('admin.posts.index')
-                ->with('message', 'Post created successfully');
-                
-        } catch (\Exception $e) {
-
-            DB::rollBack();
-            return redirect()->back()
-                ->withInput()
-                ->withErrors(['error' => 'Failed to create post. ' . $e->getMessage()]);
-        }
-    }
+     public function store(Request $request)
+     {
+         // dd($request->all());
+         try {
+             DB::beginTransaction();
+             $validated = $request->validate([
+                 'title' => ['required', 'string'],
+                 'content' => ['required', 'string'],
+                 'author' => ['required', 'string'],
+                 'image' => ['nullable', 'image', 'max:2048'],
+             ]);
+             
+             if ($request->hasFile('image')) {
+                 $imagePath = $request->file('image')->store('articles', 'public');
+                 $validated['image_path'] = $imagePath;
+             }
+             
+             Post::create($validated);
+             DB::commit();
+             
+             return redirect()->route('admin.posts.index')
+                 ->with('message', 'Post created successfully');
+                 
+         } catch (\Exception $e) {
+             DB::rollBack();
+             return redirect()->back()
+                 ->withInput()
+                 ->withErrors(['error' => 'Failed to create post. ' . $e->getMessage()]);
+         }
+     }
+ 
 
     /**
      * 
@@ -209,7 +199,7 @@ class PostController extends Controller
         });
 
     return Inertia::render('PostDetail', [
-        'post' => new PostResource($post),
+        'post' => new \App\Http\Resources\PostResource($post),
         'latestPosts' => $latestPosts,
         'comment' => [
             'data' => $comments,

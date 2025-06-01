@@ -49,14 +49,18 @@ const Edit = ({ posted }) => {
             formData.append("image", data.image);
         }
 
-        put(route("admin.posts.update", { post: postedData.uuid }), formData, {
-            preserveScroll: true,
-            preserveState: true,
-            onSuccess: () => {
-                reset();
-                setPreviewPath(null);
-            },
-        });
+        router.post(
+            route("admin.posts.update", { post: postedData.uuid }),
+            formData,
+            {
+                preserveScroll: true,
+                preserveState: true,
+                onSuccess: () => {
+                    reset();
+                    setPreviewPath(null);
+                },
+            }
+        );
     };
 
     const dashboardCallBack = () => {

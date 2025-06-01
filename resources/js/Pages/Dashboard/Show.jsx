@@ -1,5 +1,4 @@
 import React from "react";
-import { useEffect, useState } from "react";
 import { router } from "@inertiajs/react";
 import {
     ChevronLeft,
@@ -24,7 +23,8 @@ import {
     AvatarImage,
 } from "../../components/ui/avatar";
 
-const Show = ({ post }) => {
+const Show = ({ post, comments = [] }) => {
+    const commentData = comments.data || [];
     const handleBack = () => {
         router.visit(route("admin.posts.index"));
     };
@@ -56,151 +56,158 @@ const Show = ({ post }) => {
                     Back to Posts
                 </Button>
 
-                {/* Main Post Card */}
-                <Card className="overflow-hidden">
-                    <CardHeader className="space-y-4">
-                        <div className="space-y-2">
-                            <CardTitle className="text-xl font-bold leading-tight">
-                                {postData.title}
-                            </CardTitle>
-
-                            {/* Post Meta Information */}
-                            <div className="flex flex-wrap items-center gap-4 text-sm text-muted-foreground">
-                                <div className="flex items-center gap-2">
-                                    <Avatar className="h-6 w-6">
-                                        <AvatarFallback className="text-xs">
-                                            {postData.author
-                                                ?.charAt(0)
-                                                .toUpperCase() || "A"}
-                                        </AvatarFallback>
-                                    </Avatar>
-                                    <span className="font-medium">
-                                        By {postData.author}
-                                    </span>
-                                </div>
-
-                                <Separator
-                                    orientation="vertical"
-                                    className="h-4"
-                                />
-
-                                <div className="flex items-center gap-1">
-                                    <Calendar size={14} />
-                                    <span>
-                                        Published{" "}
-                                        {formatDate(postData.created_at)}
-                                    </span>
-                                </div>
-
-                                {postData.updated_at !==
-                                    postData.created_at && (
-                                    <>
-                                        <Separator
-                                            orientation="vertical"
-                                            className="h-4"
-                                        />
-                                        <div className="flex items-center gap-1">
-                                            <Clock size={14} />
-                                            <span>
-                                                Updated{" "}
-                                                {formatDate(
-                                                    postData.updated_at
-                                                )}
-                                            </span>
-                                        </div>
-                                    </>
-                                )}
-
-                                <Separator
-                                    orientation="vertical"
-                                    className="h-4"
-                                />
-
-                                <div className="flex items-center gap-1">
-                                    <MessageSquare size={14} />
-                                    <span>
-                                        {postData.comments_count ?? 0} comments
-                                    </span>
-                                </div>
+                {/* Post Content */}
+                <div className="bg-gray-800 rounded-2xl shadow p-6 space-y-6">
+                    <div className="space-y-6">
+                        <h1 className="text-3xl font-bold text-white">
+                            {postData.title}
+                        </h1>
+                        <div className="flex items-center gap-4 text-gray-400">
+                            <span>By {postData.author}</span>
+                            <span>•</span>
+                            <div className="flex items-center gap-1">
+                                <Calendar size={16} />
+                                <span>Published: {postData.created_at}</span>
+                            </div>
+                            <span>•</span>
+                            <div className="flex items-center gap-1">
+                                <Calendar size={16} />
+                                <span>Updated: {postData.updated_at}</span>
+                            </div>
+                            <span>•</span>
+                            <div className="flex items-center gap-1">
+                                <MessageSquare size={16} />
+                                <span>
+                                    {postData.comment_count ?? 0} comments
+                                </span>
                             </div>
                         </div>
-                    </CardHeader>
+                    </div>
 
-                    <CardContent className="space-y-6">
-                        {/* Featured Image */}
-                        {postData.image_path && (
-                            <div className="rounded-lg overflow-hidden">
-                                <img
-                                    src={postData.image_path}
-                                    alt={postData.title}
-                                    className="w-full h-auto object-cover max-h-[500px]"
-                                />
+                    <Card>
+                        <CardHeader>
+                            <div>
+                                {/* Post Meta Information */}
+                                <div className="flex flex-wrap items-center gap-4 text-sm text-muted-foreground">
+                                    <div className="flex items-center gap-2">
+                                        <Avatar className="h-6 w-6">
+                                            <AvatarFallback className="text-xs">
+                                                {postData.author
+                                                    ?.charAt(0)
+                                                    .toUpperCase() || "A"}
+                                            </AvatarFallback>
+                                        </Avatar>
+                                        <span className="font-medium">
+                                            By {postData.author}
+                                        </span>
+                                    </div>
+
+                                    <Separator
+                                        orientation="vertical"
+                                        className="h-4"
+                                    />
+
+                                    <div className="flex items-center gap-1">
+                                        <Calendar size={14} />
+                                        <span>
+                                            Published{" "}
+                                            {formatDate(postData.created_at)}
+                                        </span>
+                                    </div>
+
+                                    {postData.updated_at !==
+                                        postData.created_at && (
+                                        <>
+                                            <Separator
+                                                orientation="vertical"
+                                                className="h-4"
+                                            />
+                                            <div className="flex items-center gap-1">
+                                                <Clock size={14} />
+                                                <span>
+                                                    Updated{" "}
+                                                    {formatDate(
+                                                        postData.updated_at
+                                                    )}
+                                                </span>
+                                            </div>
+                                        </>
+                                    )}
+
+                                    <Separator
+                                        orientation="vertical"
+                                        className="h-4"
+                                    />
+
+                                    <div className="flex items-center gap-1">
+                                        <MessageSquare size={14} />
+                                        <span>
+                                            {postData.comments_count ?? 0}{" "}
+                                            comments
+                                        </span>
+                                    </div>
+                                </div>
                             </div>
-                        )}
+                        </CardHeader>
 
-                        {/* Content */}
-                        <div className="max-w-none">
-                            <div className="whitespace-pre-wrap leading-relaxed">
-                                {postData.content}
+                        <CardContent className="space-y-6">
+                            {/* Featured Image */}
+                            {postData.image_path && (
+                                <div className="rounded-lg overflow-hidden">
+                                    <img
+                                        src={postData.image_path}
+                                        alt={postData.title}
+                                        className="w-full h-auto object-cover max-h-[500px]"
+                                    />
+                                </div>
+                            )}
+
+                            {/* Content */}
+                            <div className="max-w-none">
+                                <div className="whitespace-pre-wrap leading-relaxed">
+                                    {postData.content}
+                                </div>
                             </div>
-                        </div>
 
-                        {/* Tags/Categories (if you have them) */}
-                        {/* <div className="flex flex-wrap gap-2">
+                            {/* Tags/Categories (if you have them) */}
+                            {/* <div className="flex flex-wrap gap-2">
                             <Badge variant="secondary">Technology</Badge>
                             <Badge variant="secondary">Programming</Badge>
                         </div> */}
-                    </CardContent>
-                </Card>
+                        </CardContent>
+                    </Card>
 
-                {/* Comments Section */}
-                <Card className="mt-6">
-                    <CardHeader>
-                        <CardTitle className="flex items-center gap-2">
-                            <MessageSquare size={20} />
-                            Comments ({postData.comments_count ?? 0})
-                        </CardTitle>
-                    </CardHeader>
-                    <CardContent>
-                        {/* Placeholder for comments - uncomment and modify when you have comments data */}
-                        {/* {post.comments && post.comments.length > 0 ? (
+                    {/* Comments Section */}
+                    <div className="border-t border-gray-700 pt-6 mt-8 w-1/2">
+                        <h2 className="text-xl font-semibold text-white mb-4">
+                            Comments
+                        </h2>
+                        {commentData && commentData.length > 0 ? (
                             <div className="space-y-4">
-                                {post.comments.map((comment) => (
-                                    <Card key={comment.id} className="bg-muted/50">
-                                        <CardContent className="pt-4">
-                                            <div className="flex justify-between items-start mb-2">
-                                                <div className="flex items-center gap-2">
-                                                    <Avatar className="h-8 w-8">
-                                                        <AvatarFallback className="text-sm">
-                                                            {comment.author?.charAt(0).toUpperCase() || "U"}
-                                                        </AvatarFallback>
-                                                    </Avatar>
-                                                    <span className="font-medium">{comment.author}</span>
-                                                </div>
-                                                <span className="text-sm text-muted-foreground">
-                                                    {formatDate(comment.created_at)}
-                                                </span>
-                                            </div>
-                                            <p className="text-foreground ml-10">
-                                                {comment.content}
-                                            </p>
-                                        </CardContent>
-                                    </Card>
+                                {commentData.map((comment) => (
+                                    <div
+                                        key={comment.id}
+                                        className="bg-gray-900 rounded-lg p-4 space-y-2"
+                                    >
+                                        <div className="flex justify-between items-center">
+                                            <span className="font-medium text-white">
+                                                {comment.author_name}
+                                            </span>
+                                            <span className="text-sm text-gray-400">
+                                                {comment.created_at}
+                                            </span>
+                                        </div>
+                                        <p className="text-gray-400 text-sm">
+                                            {comment.content}
+                                        </p>
+                                    </div>
                                 ))}
                             </div>
-                        ) : ( */}
-                        <div className="text-center py-8">
-                            <MessageSquare className="mx-auto h-12 w-12 text-muted-foreground mb-4" />
-                            <p className="text-muted-foreground">
-                                No comments yet.
-                            </p>
-                            <p className="text-sm text-muted-foreground mt-1">
-                                Be the first to share your thoughts!
-                            </p>
-                        </div>
-                        {/* )} */}
-                    </CardContent>
-                </Card>
+                        ) : (
+                            <p className="text-gray-400">No comments yet.</p>
+                        )}
+                    </div>
+                </div>
             </div>
         </div>
     );

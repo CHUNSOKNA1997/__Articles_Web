@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Resources\CommentResource;
 use App\Http\Resources\PostResource;
 use App\Models\Comment;
 use App\Models\Post;
@@ -16,18 +15,9 @@ class PostController extends Controller
 {
     //
 
-    public function index(Request $request)
+    public function index()
     {
-            $search = $request->input('search');
-
-           $post = $posts = Post::query()
-    ->when($search, function ($query, $search) {
-        $query->where('title', 'like', "%{$search}%");
-    })
-    ->get()
-    ->mapInto(PostResource::class);
-
-
+        $posts = Post::withCount('comments')->get();
         return Inertia::render('Dashboard/Index', [
             'posts' => PostResource::collection($posts),
         ]);
@@ -49,7 +39,6 @@ class PostController extends Controller
     {
         return Inertia::render('Dashboard/Show', [
             'post' => new PostResource($post),
-            'comments' => CommentResource::collection(Comment::where('post_id', $post->id)->latest()->get()),
         ]);
     }
 
@@ -70,7 +59,7 @@ class PostController extends Controller
                 'title' => ['required', 'string'],
                 'content' => ['required', 'string'],
                 'author' => ['required', 'string'],
-                'image' => ['nullable', 'image'],
+                'image' => ['nullable', 'image', 'max:2048'],
             ]);
             
             if ($request->hasFile('image')) {
@@ -79,14 +68,12 @@ class PostController extends Controller
             }
             
             Post::create($validated);
-
             DB::commit();
             
             return redirect()->route('admin.posts.index')
                 ->with('message', 'Post created successfully');
                 
         } catch (\Exception $e) {
-
             DB::rollBack();
             return redirect()->back()
                 ->withInput()
@@ -209,7 +196,7 @@ class PostController extends Controller
         });
 
     return Inertia::render('PostDetail', [
-        'post' => new PostResource($post),
+        'post' => new \App\Http\Resources\PostResource($post),
         'latestPosts' => $latestPosts,
         'comment' => [
             'data' => $comments,
