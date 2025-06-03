@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { SearchIcon, MenuIcon, XIcon } from "lucide-react";
+import { MenuIcon, XIcon } from "lucide-react";
 
 const Layout = ({ children }) => {
     const [isMenuOpen, setIsMenuOpen] = useState(false);

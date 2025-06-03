@@ -169,42 +169,54 @@ class PostController extends Controller
     }
 
     public function detail(Post $post)
-{
-    $latestPosts = Post::latest()
-        ->take(5)
-        ->get()
-        ->map(function ($post) {
-            return [
-                'id' => $post->id,
-                'uuid' => $post->uuid, // make sure uuid is available for the link
-                'title' => $post->title,
-                'content' => $post->content,
-                'author' => $post->author,
-                'image_path' => $post->image_path,
-                'created_at' => $post->created_at->format('F d, Y'),
-                'updated_at' => $post->updated_at->format('F d, Y'),
-            ];
-        });
+    {
+        $latestPosts = Post::latest()
+            ->take(5)
+            ->get()
+            ->map(function ($post) {
+                return [
+                    'id' => $post->id,
+                    'uuid' => $post->uuid, // make sure uuid is available for the link
+                    'title' => $post->title,
+                    'content' => $post->content,
+                    'author' => $post->author,
+                    'image_path' => $post->image_path,
+                    'created_at' => $post->created_at->format('F d, Y'),
+                    'updated_at' => $post->updated_at->format('F d, Y'),
+                ];
+            });
 
-    // Fetch related comments
-    $comments = Comment::where('post_id', $post->id)
-        ->latest()
-        ->get()
-        ->map(function ($comment) {
-            return [
-                'id' => $comment->id,
-                'author_name' => $comment->author_name,
-                'content' => $comment->content,
-                'created_at' => $comment->created_at->format('F d, Y h:i A'),
-            ];
-        });
+        // Fetch related comments
+        $comments = Comment::where('post_id', $post->id)
+            ->latest()
+            ->get()
+            ->map(function ($comment) {
+                return [
+                    'id' => $comment->id,
+                    'author_name' => $comment->author_name,
+                    'content' => $comment->content,
+                    'created_at' => $comment->created_at->format('F d, Y h:i A'),
+                ];
+            });
 
-    return Inertia::render('PostDetail', [
-        'post' => new \App\Http\Resources\PostResource($post),
-        'latestPosts' => $latestPosts,
-        'comment' => [
-            'data' => $comments,
-        ],
-    ]);
-}
+        return Inertia::render('PostDetail', [
+            'post' => new \App\Http\Resources\PostResource($post),
+            'latestPosts' => $latestPosts,
+            'comment' => [
+                'data' => $comments,
+            ],
+        ]);
+    }
+
+    /**
+     * 
+     * Show the contact form.
+     * 
+     * @return \Illuminate\Http\Response
+     * 
+     */
+    public function contact()
+    {
+        return Inertia::render('Contact');
+    }
 }

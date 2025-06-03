@@ -19,11 +19,11 @@ const ArticleGrid = ({ posts = [] }) => {
                             className="group bg-[#1E293B] rounded-xl overflow-hidden shadow-md hover:bg-gray-700 transition duration-300 hover:cursor-pointer"
                         >
                             {post.image_path && (
-                                <div className="aspect-w-16 aspect-h-9">
+                                <div className="aspect-w-16 aspect-h-9 h-72">
                                     <img
                                         src={post.image_path}
                                         alt={post.title || "Article image"}
-                                        className="w-full h-full object-cover"
+                                        className="object-cover w-full h-full"
                                     />
                                 </div>
                             )}
