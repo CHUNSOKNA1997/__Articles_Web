@@ -1,47 +1,64 @@
 import React, { useState } from "react";
 import { MenuIcon, XIcon } from "lucide-react";
+import { router, usePage } from "@inertiajs/react";
 
 const Layout = ({ children }) => {
     const [isMenuOpen, setIsMenuOpen] = useState(false);
-    const toggleMenu = () => {
-        setIsMenuOpen(!isMenuOpen);
-    };
+    const toggleMenu = () => setIsMenuOpen(!isMenuOpen);
+
+    const { url } = usePage();
+
+    const isActive = (path) => url === path;
+
+    const linkClasses = (active) =>
+        `hover:cursor-pointer transition-colors ${
+            active ? "text-blue-400" : "text-gray-400 hover:text-blue-400"
+        }`;
+
     return (
-        <div className="min-h-screen bg-gray-100">
+        <div className="min-h-screen bg-gray-100 flex flex-col">
             {/* Navigation Bar */}
-            <nav className="fixed top-0 left-0 right-0 z-50 bg-gray-900 border-b border-gray-800">
+            <nav className="fixed top-0 left-0 right-0 h-[100px] z-50 bg-gray-900 border-b border-gray-800 flex justify-between items-center">
                 <div className="container mx-auto px-4">
                     <div className="flex items-center justify-between py-4">
                         {/* Logo */}
                         <div className="flex items-center">
-                            <a
-                                href="/"
-                                className="text-xl font-bold text-white"
+                            <button
+                                onClick={() => router.visit(route("posts"))}
+                                className="text-xl font-bold text-white hover:cursor-pointer"
                             >
                                 Krumuk
                                 <span className="text-blue-500">NewsV2</span>
-                            </a>
+                            </button>
                         </div>
                         {/* Desktop Navigation */}
-                        <div className="hidden md:flex space-x-8">
-                            <a
-                                href="/"
-                                className="text-white hover:text-blue-400 transition-colors"
+                        <div className="hidden md:flex space-x-8 font-semibold  ">
+                            <button
+                                onClick={() => router.visit(route("posts"))}
+                                className={linkClasses(isActive("/"))}
                             >
                                 Home
-                            </a>
-                            <a
-                                href="/about"
-                                className="text-gray-400 hover:text-blue-400 transition-colors"
+                            </button>
+                            <button
+                                onClick={() =>
+                                    router.visit(route("posts.contact"))
+                                }
+                                className={linkClasses(isActive("/contact"))}
                             >
                                 Contact
-                            </a>
-                            <a
-                                href="/contact"
-                                className="text-gray-400 hover:text-blue-400 transition-colors"
+                            </button>
+                            <button
+                                onClick={() =>
+                                    router.visit(
+                                        route("posts.privacy-and-policy")
+                                    )
+                                }
+                                className={linkClasses(
+                                    isActive("/privacy-and-policy")
+                                )}
                             >
                                 Privacy & Policy
-                            </a>
+                            </button>
                         </div>
                         {/* Mobile Menu Toggle */}
                         <button
@@ -61,19 +78,23 @@ const Layout = ({ children }) => {
                             <div className="flex flex-col space-y-4">
                                 <a
                                     href="/"
-                                    className="text-white hover:text-blue-400 transition-colors"
+                                    className={linkClasses(isActive("/"))}
                                 >
                                     Home
                                 </a>
                                 <a
-                                    href="/about"
-                                    className="text-gray-400 hover:text-blue-400 transition-colors"
+                                    href="/contact"
+                                    className={linkClasses(
+                                        isActive("/contact")
+                                    )}
                                 >
                                     Contact
                                 </a>
                                 <a
-                                    href="/contact"
-                                    className="text-gray-400 hover:text-blue-400 transition-colors"
+                                    href="/privacy-and-policy"
+                                    className={linkClasses(
+                                        isActive("/privacy-and-policy")
+                                    )}
                                 >
                                     Privacy & Policy
                                 </a>
@@ -84,7 +105,7 @@ const Layout = ({ children }) => {
             </nav>
 
             {/* Main Content */}
-            <main className="h-full">{children}</main>
+            <main className="h-full mt-20 flex-grow">{children}</main>
 
             {/* Footer */}
             <footer className="bg-gray-900 text-white flex justify-center mt-auto">

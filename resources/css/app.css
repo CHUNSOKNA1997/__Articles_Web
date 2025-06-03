@@ -2,6 +2,7 @@
 @source "../views";
 @plugin 'flowbite-react/plugin/tailwindcss';
 @source '../../.flowbite-react/class-list.json';
+@import url("https://fonts.googleapis.com/css2?family=Kantumruy+Pro:ital,wght@0,100..700;1,100..700&display=swap");
 
 @source '../../vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php';
 @source '../../storage/framework/views/*.php';

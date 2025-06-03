@@ -163,6 +163,7 @@ class PostController extends Controller
 
     public function post()
     {
+        sleep(1);
         return Inertia::render('Home', [
             'posts' => PostResource::collection(Post::all()),
         ]);
@@ -217,6 +218,20 @@ class PostController extends Controller
      */
     public function contact()
     {
+        sleep(1);
         return Inertia::render('Contact');
+    }
+
+    /**
+     * 
+     * Show the Privacy and Policy page.
+     * 
+     * @return \Illuminate\Http\Response
+     * 
+     */
+    public function privacyAndPolicy()
+    {
+        sleep(1);
+        return Inertia::render('PrivacyAndPolicy');
     }
 }
