@@ -25,7 +25,8 @@ class PostController extends Controller
     }
 
     public function create()
-    {
+    {   
+        sleep(1);
         return Inertia::render('Dashboard/Create');
     }
 
@@ -38,6 +39,7 @@ class PostController extends Controller
      */
     public function show(Post $post)
     {
+        sleep(1);
         return Inertia::render('Dashboard/Show', [
             'post' => new PostResource($post),
             'comments' => CommentResource::collection(Comment::where('post_id', $post->id)->latest()->get()),
@@ -54,7 +56,6 @@ class PostController extends Controller
 
     public function store(Request $request)
     {
-        // dd($request->all());
         try {
             DB::beginTransaction();
             $validated = $request->validate([
@@ -72,7 +73,7 @@ class PostController extends Controller
             Post::create($validated);
 
             DB::commit();
-            
+            sleep(1);
             return redirect()->route('admin.posts.index')
                 ->with('message', 'Post created successfully');
                 
@@ -94,6 +95,7 @@ class PostController extends Controller
      */
     public function edit(Post $post)
     {
+        sleep(1);
         return Inertia::render('Dashboard/Edit', [
             'posted' => new PostResource($post),
         ]);
@@ -127,6 +129,7 @@ class PostController extends Controller
 
             DB::commit();
 
+            sleep(1);
             return redirect()->route('admin.posts.index')
                 ->with('message', 'Post updated successfully');
         }catch(\Exception $e){
@@ -151,7 +154,7 @@ class PostController extends Controller
 
             $post->delete();
             DB::commit();
-            
+            sleep(1);
             return redirect()->route('admin.posts.index')
                 ->with('message', 'Post deleted successfully');
         }catch(\Exception $e){

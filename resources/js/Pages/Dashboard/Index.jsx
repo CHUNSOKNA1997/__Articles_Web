@@ -147,4 +147,5 @@ const Index = ({ posts = [] }) => {
 };
 
 Index.layout = (page) => page;
+
 export default Index;

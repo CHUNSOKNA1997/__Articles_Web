@@ -8,7 +8,7 @@ export function HeroSection({ posts = [] }) {
     if (!mainPost) return null;
 
     return (
-        <section className="pt-24 pb-10 px-4 bg-gray-900">
+        <section className="pt-12 pb-10 px-4 bg-gray-900">
             <div className="container mx-auto">
                 <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
                     {/* Main Featured Article */}
