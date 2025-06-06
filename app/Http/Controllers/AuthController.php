@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Inertia\Inertia;
 
 class AuthController extends Controller
@@ -13,9 +15,9 @@ class AuthController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function register(Request $request)
+    public function register()
     {
-        // Handle user registration logic
+        return Inertia::render('Auth/Register');
     }
 
     /**
@@ -26,7 +28,20 @@ class AuthController extends Controller
      */
     public function store(Request $request)
     {
+        $data = $request->validate([
+            'name' => ['required', 'string', 'max:255'],
+            'email' => ['required','string','email','max:255','unique:users'],
+            'password' => ['required','string','min:8'],
+            'password_confirmation' =>['required','string','min:8','same:password'],
+            'remember' => ['boolean']
+        ]);
+        
         // Handle user registration logic
+        $user = User::create($data);
+
+        //Login the user
+        Auth::login($user);
+        return redirect()->route('login');
     }
 
     /**
@@ -37,7 +52,7 @@ class AuthController extends Controller
      */
     public function login(Request $request)
     {
-        return Inertia::render('Dashboard/Auth/Login');
+        return Inertia::render('Auth/Login');
     }
 
     /**
