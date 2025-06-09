@@ -1,6 +1,7 @@
 import React from "react";
 import { router } from "@inertiajs/react";
 import { ChevronLeft, MessageSquare, Calendar } from "lucide-react";
+import { Head } from "@inertiajs/react";
 
 const Show = ({ post, comments = [] }) => {
     const commentData = comments.data || [];
@@ -12,6 +13,7 @@ const Show = ({ post, comments = [] }) => {
 
     return (
         <div className="min-h-screen bg-gray-900 p-6">
+            <Head title={postData.title} />
             {/* Back Button */}
             <button
                 onClick={handleBack}

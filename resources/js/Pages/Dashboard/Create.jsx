@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { ChevronLeft } from "lucide-react";
 import { router, useForm } from "@inertiajs/react";
 import { toast } from "react-toastify";
+import { Head } from "@inertiajs/react";
 
 const Create = () => {
     const { data, setData, post, processing, errors, reset } = useForm({
@@ -47,6 +48,7 @@ const Create = () => {
 
     return (
         <div className="min-w-screen h-screen bg-gray-900 p-6 flex flex-col items-center">
+            <Head title="Create Post" />
             <main className="w-1/2 mt-12">
                 <div className="flex justify-between items-center">
                     <button

@@ -2,6 +2,7 @@ import React from "react";
 import { Link } from "@inertiajs/react";
 import { useForm } from "@inertiajs/react";
 import { toast } from "react-toastify";
+import { Head } from "@inertiajs/react";
 
 const Register = () => {
     const { data, setData, post, processing, errors } = useForm({
@@ -30,6 +31,7 @@ const Register = () => {
 
     return (
         <div className="min-h-screen flex">
+            <Head title="Register" />
             {/* Left Section: Branding or Image */}
             <div className="hidden lg:flex w-1/2 bg-gradient-to-br from-blue-700 to-indigo-900 items-center justify-center text-white p-10">
                 <div className="text-center space-y-8">

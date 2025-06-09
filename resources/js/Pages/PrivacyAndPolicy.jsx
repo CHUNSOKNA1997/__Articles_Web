@@ -1,8 +1,10 @@
 import React from "react";
+import { Head } from "@inertiajs/react";
 
 const PrivacyAndPolicy = () => {
     return (
         <div className="min-h-screen bg-gray-900 pt-24 pb-20 px-4">
+            <Head title="Privacy & Policy" />
             <div className="container mx-auto max-w-6xl">
                 <header className="mb-12">
                     <h1 className="text-4xl md:text-5xl font-bold text-white mb-6 leading-tight">

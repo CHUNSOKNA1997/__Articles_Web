@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { ChevronLeft } from "lucide-react";
 import { router, useForm } from "@inertiajs/react";
 import { toast } from "react-toastify";
+import { Head } from "@inertiajs/react";
 
 const Edit = ({ posted }) => {
     const postedData = posted.data || [];
@@ -68,6 +69,7 @@ const Edit = ({ posted }) => {
 
     return (
         <div className="min-w-screen h-screen bg-gray-900 p-6 flex flex-col items-center">
+            <Head title="Edit Post" />
             <main className="w-1/2 mt-12">
                 <div className="flex justify-between items-center">
                     <button

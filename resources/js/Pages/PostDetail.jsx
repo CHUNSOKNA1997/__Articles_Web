@@ -1,11 +1,10 @@
 import React from "react";
 import { Link, useForm } from "@inertiajs/react";
+import { Head } from "@inertiajs/react";
 
 const PostDetail = ({ post, latestPosts, comment }) => {
     const postData = post?.data;
     const commentData = comment?.data || [];
-
-    console.log(commentData);
     const {
         data,
         setData,
@@ -46,6 +45,7 @@ const PostDetail = ({ post, latestPosts, comment }) => {
 
     return (
         <article className="min-h-screen bg-gray-900 pt-24 pb-10 px-4">
+            <Head title={postData.title} />
             <div className="container mx-auto max-w-6xl">
                 <div className="flex flex-col lg:flex-row gap-12">
                     {/* Main Content */}

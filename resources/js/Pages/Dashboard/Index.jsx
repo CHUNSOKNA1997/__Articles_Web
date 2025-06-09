@@ -4,6 +4,7 @@ import { confirmDelete, showDeletedAlert } from "./utils/confirmDelete";
 import { CopyPlus } from "lucide-react";
 import { usePage } from "@inertiajs/react";
 import Layout from "../Layouts/Layout";
+import { Head } from "@inertiajs/react";
 
 const Index = ({ posts = [] }) => {
     const { auth } = usePage().props;
@@ -51,6 +52,7 @@ const Index = ({ posts = [] }) => {
     };
     return (
         <div className="min-h-screen bg-gray-900 p-6">
+            <Head title="Dashboard" />
             {/* Dashboard Header */}
             <header className="mb-6 flex justify-between items-center mt-6">
                 <div className="space-y-2">
