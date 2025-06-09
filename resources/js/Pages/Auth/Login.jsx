@@ -1,6 +1,7 @@
 import React from "react";
 import { Link } from "@inertiajs/react";
 import { useForm } from "@inertiajs/react";
+import { toast } from "react-toastify";
 
 const Login = () => {
     const { data, setData, post, processing, errors } = useForm({
@@ -16,9 +17,21 @@ const Login = () => {
         );
     };
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
-        post(route("login"));
+
+        post(route("login"), {
+            onSuccess: () => {
+                toast.success("Login successful", {
+                    autoClose: 3000,
+                });
+            },
+            onError: (error) => {
+                toast.error("Login failed. Please check your credentials.", {
+                    autoClose: 3000,
+                });
+            },
+        });
     };
 
     return (

@@ -1,10 +1,11 @@
 import React from "react";
-import { Link } from "@inertiajs/react"; // Added missing import
+import { Link } from "@inertiajs/react";
 
 const ArticleGrid = ({ posts = [] }) => {
     const postData = Array.isArray(posts) ? posts : posts?.data || [];
     const sortedPosts = [...postData].sort((a, b) => {
-        return new Date(b.date) - new Date(a.date);
+        // Sort by created_at date instead of date field
+        return new Date(b.created_at) - new Date(a.created_at);
     });
 
     return (

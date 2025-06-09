@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { ChevronLeft } from "lucide-react";
 import { router, useForm } from "@inertiajs/react";
+import { toast } from "react-toastify";
 
 const Create = () => {
     const { data, setData, post, processing, errors, reset } = useForm({
@@ -33,6 +34,9 @@ const Create = () => {
             onSuccess: () => {
                 reset();
                 setPreviewPath(null);
+                toast.success("Post created successfully", {
+                    autoClose: 3000,
+                });
             },
         });
     };

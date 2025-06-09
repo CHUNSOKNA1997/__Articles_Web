@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { ChevronLeft } from "lucide-react";
 import { router, useForm } from "@inertiajs/react";
+import { toast } from "react-toastify";
 
 const Edit = ({ posted }) => {
     const postedData = posted.data || [];
@@ -53,6 +54,9 @@ const Edit = ({ posted }) => {
                 onSuccess: () => {
                     reset();
                     setPreviewPath(null);
+                    toast.success("Post edited successfully", {
+                        autoClose: 3000,
+                    });
                 },
             }
         );

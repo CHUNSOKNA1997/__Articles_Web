@@ -1,8 +1,7 @@
 import React from "react";
 import { Link } from "@inertiajs/react";
 import { useForm } from "@inertiajs/react";
-import { ToastContainer, toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
+import { toast } from "react-toastify";
 
 const Register = () => {
     const { data, setData, post, processing, errors } = useForm({
@@ -31,13 +30,6 @@ const Register = () => {
 
     return (
         <div className="min-h-screen flex">
-            {/* Toast Container */}
-            <ToastContainer
-                position="top-right"
-                autoClose={3000}
-                theme="dark"
-            />
-
             {/* Left Section: Branding or Image */}
             <div className="hidden lg:flex w-1/2 bg-gradient-to-br from-blue-700 to-indigo-900 items-center justify-center text-white p-10">
                 <div className="text-center space-y-8">

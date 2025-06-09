@@ -1,7 +1,7 @@
 import "./bootstrap";
 import "../css/app.css";
-import { ToastContainer } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
+import { ToastContainer, toast } from "react-toastify"; // Import toast functions
+import "react-toastify/dist/ReactToastify.css"; // Import CSS for Toastify
 
 import { createInertiaApp } from "@inertiajs/react";
 import { createRoot } from "react-dom/client";
@@ -16,6 +16,20 @@ createInertiaApp({
         return page;
     },
     setup({ el, App, props }) {
-        createRoot(el).render(<App {...props} />);
+        if (props.toast) {
+            const { message, type } = props.toast;
+            if (type === "success") {
+                toast.success(message);
+            } else if (type === "error") {
+                toast.error(message);
+            }
+        }
+
+        createRoot(el).render(
+            <>
+                <App {...props} />
+                <ToastContainer />
+            </>
+        );
     },
 });
