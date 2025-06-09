@@ -5,8 +5,16 @@ import react from "@vitejs/plugin-react";
 import flowbiteReact from "flowbite-react/plugin/vite";
 
 export default defineConfig({
-    plugins: [laravel({
-        input: "resources/js/app.jsx",
-        refresh: true,
-    }), tailwindcss(), react(), flowbiteReact()],
+    plugins: [
+        laravel({
+            input: "resources/js/app.jsx",
+            refresh: true,
+        }),
+        tailwindcss(),
+        react(),
+        flowbiteReact(),
+    ],
+    build: {
+        outDir: "dist",
+    },
 });
