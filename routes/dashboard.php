@@ -7,17 +7,10 @@ use Illuminate\Support\Facades\Route;
 Route::group([
     'prefix' => 'admin',
     'as' => 'admin.',
-    'middleware' => ['auth', 'admin'],
+    'middleware' => ['auth'],
 ], function () {
     Route::post('/posts/{post}/comments', [CommentController::class, 'store'])->name('comments.store');
     Route::resources([
         'posts' => PostController::class,
     ]);
 });
-
-// Route::group(['prefix' => 'admin', 'as' => 'admin.'], function () {
-//     Route::post('/posts/{post}/comments', [CommentController::class, 'store'])->name('comments.store');
-//     Route::resources([
-//         'posts' => PostController::class,
-//     ]);
-// });

@@ -19,6 +19,7 @@ class PostController extends Controller
     public function index()
     {
         $posts = Post::withCount('comments')->get();
+        sleep(1);
         return Inertia::render('Dashboard/Index', [
             'posts' => PostResource::collection($posts),
         ]);

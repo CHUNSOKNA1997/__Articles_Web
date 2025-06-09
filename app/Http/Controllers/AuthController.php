@@ -33,7 +33,6 @@ class AuthController extends Controller
             'email' => ['required','string','email','max:255','unique:users'],
             'password' => ['required','string','min:8'],
             'password_confirmation' =>['required','string','min:8','same:password'],
-            'remember' => ['boolean']
         ]);
         
         // Handle user registration logic
@@ -50,7 +49,7 @@ class AuthController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function login(Request $request)
+    public function login()
     {
         return Inertia::render('Auth/Login');
     }
@@ -63,7 +62,19 @@ class AuthController extends Controller
      */
     public function authenticate(Request $request)
     {
-        // Handle user authentication logic
+        $credentials = $request->validate([
+            'email' => ['required', 'email'],
+            'password' => ['required'],
+        ]);
+        if (Auth::attempt($credentials, $request->remember_me)) {
+            $request->session()->regenerate();
+            return redirect()->route('admin.posts.index');
+
+        }
+
+        return back()->withErrors([
+            'email' => 'The provided credentials do not match our records.',
+        ])->onlyInput('email');
     }
 
     /**
@@ -74,6 +85,9 @@ class AuthController extends Controller
      */
     public function logout(Request $request)
     {
-        // Handle user logout logic
+        Auth::logout();
+        $request->session()->invalidate();
+        $request->session()->regenerateToken();
+        return redirect('login');
     }
 }

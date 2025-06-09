@@ -1,7 +1,26 @@
 import React from "react";
 import { Link } from "@inertiajs/react";
+import { useForm } from "@inertiajs/react";
 
 const Login = () => {
+    const { data, setData, post, processing, errors } = useForm({
+        email: "",
+        password: "",
+        remember_me: false,
+    });
+
+    const handleChange = (e) => {
+        setData(
+            e.target.name,
+            e.target.type === "checkbox" ? e.target.checked : e.target.value
+        );
+    };
+
+    const handleSubmit = (e) => {
+        e.preventDefault();
+        post(route("login"));
+    };
+
     return (
         <div className="min-h-screen flex">
             {/* Left Section: Branding or Image */}
@@ -41,7 +60,10 @@ const Login = () => {
                         </p>
                     </div>
 
-                    <form className="space-y-6 bg-gray-800 p-8 rounded-xl shadow-lg">
+                    <form
+                        onSubmit={handleSubmit}
+                        className="space-y-6 bg-gray-800 p-8 rounded-xl shadow-lg"
+                    >
                         <div className="grid gap-4">
                             <div className="space-y-2">
                                 <label
@@ -52,10 +74,18 @@ const Login = () => {
                                 </label>
                                 <input
                                     id="email"
+                                    name="email"
                                     type="email"
                                     placeholder="you@example.com"
+                                    value={data.email}
+                                    onChange={handleChange}
                                     className="mt-1 w-full px-4 py-2 rounded-md bg-gray-700 border border-gray-600 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500"
                                 />
+                                {errors.email && (
+                                    <p className="text-xs text-red-500">
+                                        {errors.email}
+                                    </p>
+                                )}
                             </div>
 
                             <div className="space-y-2">
@@ -67,17 +97,28 @@ const Login = () => {
                                 </label>
                                 <input
                                     id="password"
+                                    name="password"
                                     type="password"
                                     placeholder="Enter your password"
+                                    value={data.password}
+                                    onChange={handleChange}
                                     className="mt-1 w-full px-4 py-2 rounded-md bg-gray-700 border border-gray-600 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500"
                                 />
+                                {errors.password && (
+                                    <p className="text-xs text-red-500">
+                                        {errors.password}
+                                    </p>
+                                )}
                             </div>
                         </div>
 
                         <div className="flex items-center">
                             <input
                                 id="remember_me"
+                                name="remember_me"
                                 type="checkbox"
+                                checked={data.remember_me}
+                                onChange={handleChange}
                                 className="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-600 rounded bg-gray-700"
                             />
                             <label
@@ -90,9 +131,10 @@ const Login = () => {
 
                         <button
                             type="submit"
+                            disabled={processing}
                             className="w-full py-2 px-4 bg-blue-600 hover:bg-blue-700 text-white font-semibold rounded-md shadow focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-all hover:cursor-pointer"
                         >
-                            Login
+                            {processing ? "Logging in..." : "Login"}
                         </button>
                     </form>
                 </div>
@@ -102,4 +144,5 @@ const Login = () => {
 };
 
 Login.layout = (page) => page;
+
 export default Login;

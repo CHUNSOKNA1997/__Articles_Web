@@ -2,9 +2,11 @@ import { router } from "@inertiajs/react";
 import React from "react";
 import { confirmDelete, showDeletedAlert } from "./utils/confirmDelete";
 import { CopyPlus } from "lucide-react";
+import { usePage } from "@inertiajs/react";
+import Layout from "../Layouts/Layout";
 
 const Index = ({ posts = [] }) => {
-    console.log(posts);
+    const { auth } = usePage().props;
 
     const postsData = posts.data || [];
 
@@ -53,8 +55,9 @@ const Index = ({ posts = [] }) => {
             <header className="mb-6 flex justify-between items-center mt-6">
                 <div className="space-y-2">
                     <h1 className="text-3xl font-bold text-white">Dashboard</h1>
-                    <p className="text-gray-300">
-                        Welcome back! Here's a summary of your posts.
+                    <p className="text-gray-300 text-xl">
+                        Welcome back, {auth.user.name}! Here's a summary of your
+                        posts.
                     </p>
                 </div>
 
@@ -146,6 +149,6 @@ const Index = ({ posts = [] }) => {
     );
 };
 
-Index.layout = (page) => page;
+Index.layout = (page) => <Layout children={page} />;
 
 export default Index;

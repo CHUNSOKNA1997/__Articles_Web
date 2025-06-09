@@ -10,7 +10,6 @@ const Register = () => {
         email: "",
         password: "",
         password_confirmation: "",
-        remember: false, // Added remember field
     });
 
     const submitCallback = (e) => {
@@ -178,24 +177,6 @@ const Register = () => {
                                         {errors.password_confirmation}
                                     </div>
                                 )}
-                            </div>
-
-                            <div className="flex items-center">
-                                <input
-                                    id="remember"
-                                    type="checkbox"
-                                    checked={data.remember}
-                                    onChange={(e) =>
-                                        setData("remember", e.target.checked)
-                                    }
-                                    className="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-600 rounded bg-gray-700"
-                                />
-                                <label
-                                    htmlFor="remember"
-                                    className="ml-2 block text-sm text-gray-300"
-                                >
-                                    Remember me
-                                </label>
                             </div>
                         </div>
                         <button
