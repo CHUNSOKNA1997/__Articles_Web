@@ -34,8 +34,6 @@ class Post extends Model
     
     /**
      * Auto generate uuid for post.
-     * 
-     * @param \Illuminate\Database\Eloquent\Model $post
      * @return string
      */
     protected static function booted()
@@ -48,8 +46,6 @@ class Post extends Model
     /**
      * 
      * Generate route key name.
-     * 
-     * @param string $keyName
      * @return string
      * 
      */
