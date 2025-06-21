@@ -65,13 +65,7 @@ const Login = () => {
                             Login to your account
                         </h2>
                         <p className="mt-2 text-center text-sm text-gray-400">
-                            Don't have an account?{" "}
-                            <Link
-                                href={route("register")}
-                                className="text-blue-400 hover:underline"
-                            >
-                                Register here
-                            </Link>
+                            Welcome! Please sign in to your account.
                         </p>
                     </div>
 

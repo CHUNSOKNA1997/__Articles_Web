@@ -20,18 +20,18 @@ const Layout = ({ children }) => {
                 className="fixed top-0 left-0 z-40 w-64 h-screen transition-transform -translate-x-full sm:translate-x-0"
                 aria-label="Sidebar"
             >
-                <div className="h-full px-3 py-4 overflow-y-auto bg-gray-50 dark:bg-gray-800">
+                <div className="h-full px-3 py-4 overflow-y-auto bg-gray-800">
                     <ul className="space-y-2 font-medium">
                         <li>
                             <Link
                                 href={route("admin.posts.index")}
-                                className={`flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group ${
+                                className={`flex items-center p-2 text-white rounded-lg hover:bg-gray-700 group ${
                                     route().current("admin.posts.index")
-                                        ? "bg-gray-100 dark:bg-gray-700"
+                                        ? "bg-gray-700"
                                         : ""
                                 }`}
                             >
-                                <Home className="w-5 h-5 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white" />
+                                <Home className="w-5 h-5 text-gray-400 transition duration-75 group-hover:text-white" />
                                 <span className="ms-3">Dashboard</span>
                             </Link>
                         </li>
@@ -42,13 +42,13 @@ const Layout = ({ children }) => {
                                 <li>
                                     <Link
                                         href="#"
-                                        className={`flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group ${
+                                        className={`flex items-center p-2 text-white rounded-lg hover:bg-gray-700 group ${
                                             route().current("login")
-                                                ? "bg-gray-100 dark:bg-gray-700"
+                                                ? "bg-gray-700"
                                                 : ""
                                         }`}
                                     >
-                                        <Lock className="shrink-0 w-5 h-5 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white" />
+                                        <Lock className="shrink-0 w-5 h-5 text-gray-400 transition duration-75 group-hover:text-white" />
                                         <span className="flex-1 ms-3 whitespace-nowrap">
                                             Sign In
                                         </span>
@@ -57,13 +57,13 @@ const Layout = ({ children }) => {
                                 <li>
                                     <Link
                                         href="#"
-                                        className={`flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group ${
+                                        className={`flex items-center p-2 text-white rounded-lg hover:bg-gray-700 group ${
                                             route().current("register")
-                                                ? "bg-gray-100 dark:bg-gray-700"
+                                                ? "bg-gray-700"
                                                 : ""
                                         }`}
                                     >
-                                        <LogOut className="shrink-0 w-5 h-5 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white" />
+                                        <LogOut className="shrink-0 w-5 h-5 text-gray-400 transition duration-75 group-hover:text-white" />
                                         <span className="flex-1 ms-3 whitespace-nowrap">
                                             Sign Up
                                         </span>
@@ -78,10 +78,10 @@ const Layout = ({ children }) => {
                                         method="post"
                                         as="button"
                                         href={route("logout")}
-                                        onClick={handleLogout} // Add this line to trigger the toast
-                                        className="flex items-center justify-start w-full p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group hover:cursor-pointer"
+                                        onClick={handleLogout}
+                                        className="flex items-center justify-start w-full p-2 text-white rounded-lg hover:bg-gray-700 group hover:cursor-pointer"
                                     >
-                                        <LogOut className="shrink-0 w-5 h-5 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white" />
+                                        <LogOut className="shrink-0 w-5 h-5 text-gray-400 transition duration-75 group-hover:text-white" />
                                         <span className="ms-3 whitespace-nowrap">
                                             Logout
                                         </span>
