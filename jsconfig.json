@@ -1,0 +1,14 @@
+{
+    "compilerOptions": {
+        "baseUrl": ".",
+        "paths": {
+            "@/*": ["resources/js/*"],
+            "@/Components/*": ["resources/js/Components/*"],
+            "@/Pages/*": ["resources/js/Pages/*"],
+            "@/Layouts/*": ["resources/js/Layouts/*"],
+            "@/Hooks/*": ["resources/js/Hooks/*"],
+            "@/Utils/*": ["resources/js/Utils/*"]
+        }
+    },
+    "exclude": ["node_modules", "public"]
+}
