@@ -1,0 +1,16 @@
+[build]
+  base = ""
+  publish = "public"
+  command = "composer install --no-dev && npm ci && php artisan key:generate && php artisan migrate --force && npm run build"
+
+[build.environment]
+  NODE_VERSION = "18"
+  COMPOSER_FLAGS = "--no-dev --no-interaction --prefer-dist --optimize-autoloader"
+
+[context.production.environment]
+  APP_ENV = "production"
+  MIX_APP_ENV = "production"
+  APP_KEY = "base64:{{ secrets.APP_KEY }}"
+
+[context.production]
+  command = "composer install && npm ci && php artisan key:generate && php artisan migrate --force && npm run build"

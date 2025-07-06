@@ -1,5 +1,6 @@
 import React from "react";
 import { Link } from "@inertiajs/react";
+import { Skeleton } from "@/components/ui/skeleton";
 
 export function HeroSection({ posts = [] }) {
     // Get the first 3 posts for the hero section
@@ -78,3 +79,36 @@ export function HeroSection({ posts = [] }) {
         </section>
     );
 }
+
+const HeroSkeleton = () => (
+    <section className="pt-12 pb-10 px-4 bg-gray-900">
+        <div className="container mx-auto">
+            <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                {/* Main Featured Article Skeleton */}
+                <div className="lg:col-span-2 relative overflow-hidden rounded-lg">
+                    <Skeleton className="h-96 w-full" />
+                    <div className="absolute bottom-0 left-0 right-0 p-6">
+                        <Skeleton className="h-8 w-3/4 mb-2" />
+                        <Skeleton className="h-4 w-1/2" />
+                    </div>
+                </div>
+
+                {/* Secondary Articles Skeleton */}
+                <div className="space-y-6">
+                    {Array.from({ length: 2 }).map((_, index) => (
+                        <div
+                            key={index}
+                            className="relative overflow-hidden rounded-lg"
+                        >
+                            <Skeleton className="h-48 w-full" />
+                            <div className="absolute bottom-0 left-0 right-0 p-4">
+                                <Skeleton className="h-6 w-full mb-2" />
+                                <Skeleton className="h-4 w-2/3" />
+                            </div>
+                        </div>
+                    ))}
+                </div>
+            </div>
+        </div>
+    </section>
+);

@@ -1,18 +1,34 @@
 import React from "react";
 import { Link } from "@inertiajs/react";
+import { Skeleton } from "@/components/ui/skeleton";
 
-const ArticleGrid = ({ posts = [] }) => {
+const ArticleGrid = ({ posts = [], isLoading = false }) => {
     const postData = Array.isArray(posts) ? posts : posts?.data || [];
     const sortedPosts = [...postData].sort((a, b) => {
-        // Sort by created_at date instead of date field
         return new Date(b.created_at) - new Date(a.created_at);
     });
+
+    // Skeleton loading component
+    const ArticleSkeleton = () => (
+        <div className="bg-[#1E293B] rounded-xl overflow-hidden shadow-md">
+            <Skeleton className="h-72 w-full" />
+            <div className="p-4">
+                <Skeleton className="h-6 w-3/4 mb-3" />
+                <Skeleton className="h-4 w-1/2" />
+            </div>
+        </div>
+    );
 
     return (
         <section className="bg-[#0F172A] px-6 md:px-20 py-10 min-h-screen text-white">
             <h2 className="text-3xl font-bold mb-6">Latest News</h2>
             <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-                {sortedPosts && sortedPosts.length > 0 ? (
+                {isLoading ? (
+                    // Show 6 skeleton cards while loading
+                    Array.from({ length: 6 }).map((_, index) => (
+                        <ArticleSkeleton key={index} />
+                    ))
+                ) : sortedPosts && sortedPosts.length > 0 ? (
                     sortedPosts.map((post, index) => (
                         <Link
                             href={`/posts/${post.uuid}`}

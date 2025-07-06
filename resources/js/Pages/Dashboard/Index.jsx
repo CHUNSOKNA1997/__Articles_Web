@@ -1,13 +1,15 @@
 import { router } from "@inertiajs/react";
-import React from "react";
+import React, { useState } from "react";
 import { confirmDelete, showDeletedAlert } from "./utils/confirmDelete";
 import { CopyPlus } from "lucide-react";
 import { usePage } from "@inertiajs/react";
 import Layout from "../Layouts/Layout";
 import { Head } from "@inertiajs/react";
+import { Skeleton } from "@/components/ui/skeleton";
 
 const Index = ({ posts = [] }) => {
     const { auth } = usePage().props;
+    const [isLoading, setIsLoading] = useState(false);
 
     const postsData = posts.data || [];
 
@@ -16,18 +18,26 @@ const Index = ({ posts = [] }) => {
     };
 
     const viewCallBack = (post) => {
+        setIsLoading(true);
         router.visit(
             route("admin.posts.show", {
                 post: post.uuid,
-            })
+            }),
+            {
+                onFinish: () => setIsLoading(false),
+            }
         );
     };
 
     const editCallBack = (post) => {
+        setIsLoading(true);
         router.visit(
             route("admin.posts.edit", {
                 post: post.uuid,
-            })
+            }),
+            {
+                onFinish: () => setIsLoading(false),
+            }
         );
     };
 
@@ -35,6 +45,7 @@ const Index = ({ posts = [] }) => {
         const result = await confirmDelete();
 
         if (result.isConfirmed) {
+            setIsLoading(true);
             router.visit(
                 route("admin.posts.destroy", {
                     post: post.uuid,
@@ -45,11 +56,43 @@ const Index = ({ posts = [] }) => {
                     preserveState: true,
                     onSuccess: () => {
                         showDeletedAlert();
+                        setIsLoading(false);
                     },
+                    onError: () => setIsLoading(false),
                 }
             );
         }
     };
+
+    // Skeleton loading component for table rows
+    const TableSkeleton = () => (
+        <>
+            {Array.from({ length: 5 }).map((_, index) => (
+                <tr
+                    key={index}
+                    className="bg-gray-900 border-b border-gray-700"
+                >
+                    <td className="px-6 py-4">
+                        <Skeleton className="h-4 w-48 bg-gray-600" />
+                    </td>
+                    <td className="px-6 py-4">
+                        <Skeleton className="h-4 w-24 bg-gray-600" />
+                    </td>
+                    <td className="px-6 py-4">
+                        <Skeleton className="h-4 w-8 bg-gray-600" />
+                    </td>
+                    <td className="px-6 py-4">
+                        <div className="flex justify-end space-x-4">
+                            <Skeleton className="h-4 w-12 bg-gray-600" />
+                            <Skeleton className="h-4 w-8 bg-gray-600" />
+                            <Skeleton className="h-4 w-16 bg-gray-600" />
+                        </div>
+                    </td>
+                </tr>
+            ))}
+        </>
+    );
+
     return (
         <div className="min-h-screen bg-gray-900 p-6">
             <Head title="Dashboard" />
@@ -88,7 +131,9 @@ const Index = ({ posts = [] }) => {
                             </tr>
                         </thead>
                         <tbody>
-                            {postsData.length > 0 ? (
+                            {isLoading ? (
+                                <TableSkeleton />
+                            ) : postsData.length > 0 ? (
                                 postsData.map((post) => (
                                     <tr
                                         key={post.uuid}
@@ -110,6 +155,7 @@ const Index = ({ posts = [] }) => {
                                                         viewCallBack(post)
                                                     }
                                                     className="text-sm font-medium text-green-400 hover:underline hover:cursor-pointer"
+                                                    disabled={isLoading}
                                                 >
                                                     View
                                                 </button>
@@ -118,6 +164,7 @@ const Index = ({ posts = [] }) => {
                                                         editCallBack(post)
                                                     }
                                                     className="text-sm font-medium text-blue-400 hover:underline hover:cursor-pointer"
+                                                    disabled={isLoading}
                                                 >
                                                     Edit
                                                 </button>
@@ -126,6 +173,7 @@ const Index = ({ posts = [] }) => {
                                                         deleteCallBack(post)
                                                     }
                                                     className="text-sm font-medium text-red-400 hover:underline hover:cursor-pointer"
+                                                    disabled={isLoading}
                                                 >
                                                     Remove
                                                 </button>
@@ -136,7 +184,7 @@ const Index = ({ posts = [] }) => {
                             ) : (
                                 <tr>
                                     <td
-                                        colSpan="5"
+                                        colSpan="4"
                                         className="px-6 py-4 text-center text-gray-400"
                                     >
                                         There are no posts available.
