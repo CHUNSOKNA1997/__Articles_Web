@@ -22,8 +22,8 @@ class PostResource extends JsonResource
             'author' => $this->author,
             'comment_count' => $this->comments->count(),
             'image_path' => $this->image_path ? asset('storage/' . $this->image_path) : null,
-            'created_at' => $this->created_at->format('F d, Y'),
-            'updated_at' => $this->updated_at->format('F d, Y'),
+            'created_at' => $this->created_at->format('F d, Y g:iA'),
+            'updated_at' => $this->updated_at->format('F d, Y g:iA'),
         ]);
 
     }

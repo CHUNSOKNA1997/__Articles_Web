@@ -41,6 +41,7 @@ class PostController extends Controller
     public function show(Post $post)
     {
         sleep(1);
+        if ($post)
         return Inertia::render('Dashboard/Show', [
             'post' => new PostResource($post),
             'comments' => CommentResource::collection(Comment::where('post_id', $post->id)->latest()->get()),
