@@ -5,7 +5,7 @@ import { toast } from "react-toastify";
 import { Head } from "@inertiajs/react";
 
 const Create = () => {
-    const { data, setData, post, processing, errors, reset } = useForm({
+    const { data, setData, post, processing, reset } = useForm({
         title: "",
         content: "",
         author: "",
@@ -158,7 +158,7 @@ const Create = () => {
                     <div className="text-right">
                         <button
                             type="submit"
-                            className="bg-blue-600 hover:bg-blue-700 text-white font-semibold px-6 py-2 rounded-lg transition"
+                            className="bg-blue-600 hover:bg-blue-700 text-white font-semibold px-6 py-2 rounded-lg transition hover:cursor-pointer"
                             disabled={processing}
                         >
                             Add Post

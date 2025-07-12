@@ -170,8 +170,12 @@ const PostDetail = ({ post, latestPosts, comment }) => {
                                 </div>
                                 <button
                                     type="submit"
-                                    className="px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition duration-300 hover:cursor-pointer"
-                                    disabled={processing}
+                                    className="px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition duration-300 hover:cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
+                                    disabled={
+                                        processing ||
+                                        !data.author_name.trim() ||
+                                        !data.content.trim()
+                                    }
                                 >
                                     {processing
                                         ? "Submitting..."
