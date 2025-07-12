@@ -9,8 +9,6 @@ use App\Models\Post;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Inertia\Inertia;
-use Illuminate\Support\Facades\Storage;
-use Illuminate\Validation\ValidationData;
 
 class PostController extends Controller
 {
