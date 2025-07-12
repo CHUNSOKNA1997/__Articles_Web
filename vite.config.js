@@ -14,7 +14,9 @@ export default defineConfig({
         react(),
     ],
     build: {
-        outDir: "dist",
+        outDir: "public/build",
+        emptyOutDir: true,
+        manifest: true,
     },
     resolve: {
         alias: {
