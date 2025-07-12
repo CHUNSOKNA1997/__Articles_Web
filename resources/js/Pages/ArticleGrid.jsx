@@ -2,7 +2,7 @@ import React from "react";
 import { Link } from "@inertiajs/react";
 import { Skeleton } from "@/components/ui/skeleton";
 
-const ArticleGrid = ({ posts = [], isLoading = true }) => {
+const ArticleGrid = ({ posts = [], isLoading = false }) => {
     const postData = (Array.isArray(posts) ? posts : posts?.data || []).sort(
         (a, b) => new Date(b.created_at) - new Date(a.created_at)
     );

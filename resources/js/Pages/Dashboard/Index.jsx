@@ -1,15 +1,26 @@
 import { router } from "@inertiajs/react";
 import React, { useState } from "react";
-import { confirmDelete, showDeletedAlert } from "./utils/confirmDelete";
 import { CopyPlus } from "lucide-react";
 import { usePage } from "@inertiajs/react";
 import Layout from "../Layouts/Layout";
 import { Head } from "@inertiajs/react";
 import { Skeleton } from "@/components/ui/skeleton";
+import {
+    Dialog,
+    DialogContent,
+    DialogDescription,
+    DialogFooter,
+    DialogHeader,
+    DialogTitle,
+} from "@/components/ui/dialog";
+import { Button } from "@/components/ui/button";
+import { toast } from "react-toastify";
 
 const Index = ({ posts = [] }) => {
     const { auth } = usePage().props;
     const [isLoading, setIsLoading] = useState(false);
+    const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
+    const [postToDelete, setPostToDelete] = useState(null);
 
     const postsData = posts.data || [];
 
@@ -41,27 +52,42 @@ const Index = ({ posts = [] }) => {
         );
     };
 
-    const deleteCallBack = async (post) => {
-        const result = await confirmDelete();
+    const deleteCallBack = (post) => {
+        setPostToDelete(post);
+        setDeleteDialogOpen(true);
+    };
 
-        if (result.isConfirmed) {
+    const confirmDelete = () => {
+        if (postToDelete) {
             setIsLoading(true);
+            setDeleteDialogOpen(false);
             router.visit(
                 route("admin.posts.destroy", {
-                    post: post.uuid,
+                    post: postToDelete.uuid,
                 }),
                 {
                     method: "delete",
                     preserveScroll: true,
                     preserveState: true,
                     onSuccess: () => {
-                        showDeletedAlert();
+                        toast.success("Post deleted successfully", {
+                            autoClose: 3000,
+                        });
                         setIsLoading(false);
+                        setPostToDelete(null);
                     },
-                    onError: () => setIsLoading(false),
+                    onError: () => {
+                        setIsLoading(false);
+                        setPostToDelete(null);
+                    },
                 }
             );
         }
+    };
+
+    const cancelDelete = () => {
+        setDeleteDialogOpen(false);
+        setPostToDelete(null);
     };
 
     // Skeleton loading component for table rows
@@ -195,6 +221,37 @@ const Index = ({ posts = [] }) => {
                     </table>
                 </div>
             </div>
+
+            {/* Delete Confirmation Dialog */}
+            <Dialog open={deleteDialogOpen} onOpenChange={setDeleteDialogOpen}>
+                <DialogContent className="sm:max-w-[425px] bg-gray-800 border-gray-700">
+                    <DialogHeader>
+                        <DialogTitle className="text-white">
+                            Delete Post
+                        </DialogTitle>
+                        <DialogDescription className="text-gray-300">
+                            Are you sure you want to delete this post? This
+                            action cannot be undone.
+                        </DialogDescription>
+                    </DialogHeader>
+                    <DialogFooter>
+                        <Button
+                            variant="outline"
+                            onClick={cancelDelete}
+                            className="text-black hover:bg-slate-300 hover:cursor-pointer"
+                        >
+                            Cancel
+                        </Button>
+                        <Button
+                            variant="destructive"
+                            onClick={confirmDelete}
+                            className="bg-red-600 hover:bg-red-800 hover:cursor-pointer"
+                        >
+                            Delete
+                        </Button>
+                    </DialogFooter>
+                </DialogContent>
+            </Dialog>
         </div>
     );
 };
